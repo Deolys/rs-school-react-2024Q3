@@ -1,13 +1,9 @@
-
 function App() {
-
   return (
     <>
-      <p>
-        Starting project
-      </p>
+      <p>Starting project</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
