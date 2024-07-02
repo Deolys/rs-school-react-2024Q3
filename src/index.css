@@ -2,7 +2,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:after, *:before {
+*,
+*:after,
+*:before {
   margin: 0;
   padding: 0;
   box-sizing: inherit;
@@ -18,7 +20,8 @@ body {
   flex-direction: column;
 }
 
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
   height: auto;
@@ -47,6 +50,10 @@ ul {
   list-style: none;
 }
 
-h1, h2, h3, p, figure {
+h1,
+h2,
+h3,
+p,
+figure {
   margin: 0;
 }
