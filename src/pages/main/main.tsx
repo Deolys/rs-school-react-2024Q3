@@ -1,6 +1,6 @@
 import { Component, ReactNode } from 'react';
-import { CardsList } from '../../components/cards-list';
-import { api } from '../../services/api';
+import { CardsList } from '@components/cards-list';
+import { api } from '@services/api';
 
 export class Main extends Component {
   state = {

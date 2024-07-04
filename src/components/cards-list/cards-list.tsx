@@ -1,8 +1,11 @@
+import { Card } from '@components/card';
 import { Component, ReactNode } from 'react';
+import classes from './cards-list.module.scss';
 
-interface ICard {
+export interface ICard {
   mal_id: number;
   title: string;
+  score: number;
   images: {
     jpg: {
       image_url: string;
@@ -21,18 +24,13 @@ interface ICards {
 export class CardsList extends Component<ICards> {
   render(): ReactNode {
     return this.props.cards.length > 0 ? (
-      <section>
+      <section className={classes.cardsList}>
         {this.props.cards.map((card) => (
-          <div className="card" key={card.mal_id}>
-            <img src={card.images.jpg.image_url} alt={card.title} />
-            <h3>{card.title}</h3>
-            <p>{card.year}</p>
-            <p>{card.genres.map((genre) => genre.name).join(', ')}</p>
-          </div>
+          <Card key={card.mal_id} card={card} />
         ))}
       </section>
     ) : (
-      <div>
+      <div className={classes.emptyListSign}>
         <h2>No cards found</h2>
       </div>
     );
