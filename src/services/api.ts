@@ -1,18 +1,29 @@
+import { ICardsData } from './types';
+import { SERVER_URL } from './variables';
+
 export const api = {
-  fetchCards: async () => {
-    const response = await fetch('https://api.jikan.moe/v4/anime');
+  fetchCards: async (): Promise<ICardsData | null> => {
+    const response = await fetch(`${SERVER_URL}?sfw=true`);
     const data = await response.json();
     return data;
   },
 
-  searchCards: async (query: string, page: number = 1) => {
+  searchCards: async (query: string, page: number = 1): Promise<ICardsData | null> => {
     const params = new URLSearchParams({
       q: query,
       page: page.toString(),
       sfw: 'true',
     });
-    const response = await fetch(`https://api.jikan.moe/v4/anime}?${params.toString()}`);
+    const response = await fetch(`${SERVER_URL}?${params.toString()}`);
     const data = await response.json();
-    return data;
+    return removeDuplicates(data);
   },
+};
+
+const removeDuplicates = (fullData: ICardsData): ICardsData => {
+  const { pagination, data } = fullData;
+  const uniqueData = data.filter((card, index, self) => {
+    return self.findIndex((c) => c.mal_id === card.mal_id) === index;
+  });
+  return { pagination, data: uniqueData };
 };

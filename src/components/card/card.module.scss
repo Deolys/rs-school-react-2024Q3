@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  background-color: #f7f9ff;
+  background-color: var(--card-color);
   -webkit-box-shadow: 0px 4px 18px 5px rgba(59, 84, 108, 0.1);
   -moz-box-shadow: 0px 4px 18px 5px rgba(59, 84, 108, 0.1);
   box-shadow: 0px 4px 18px 5px rgba(59, 84, 108, 0.1);
@@ -19,9 +19,19 @@
 
   p {
     padding-top: 6px;
+    color: var(--text-color);
   }
 
   span {
     font-weight: 600;
   }
+
+  @media(max-width: 596px) {
+    width: 250px;
+    margin-inline: auto;
+  }
+}
+
+.cardTitle {
+  color: var(--text-color);
 }

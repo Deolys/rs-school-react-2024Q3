@@ -1,5 +1,5 @@
-import { ICard } from '@components/cards-list/cards-list';
 import { Component, ReactNode } from 'react';
+import { ICard } from '@services/types';
 import classes from './card.module.scss';
 
 interface ICardProps {
@@ -13,7 +13,7 @@ export class Card extends Component<ICardProps> {
       <article className={classes.card}>
         <img src={card.images.jpg.image_url} alt={card.title} />
         <div className={classes.card__info}>
-          <h3>{card.title}</h3>
+          <h3 className={classes.cardTitle}>{card.title}</h3>
           <p>
             <span>Score: </span>
             {card.score}
