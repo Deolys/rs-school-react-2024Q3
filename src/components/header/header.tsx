@@ -7,7 +7,11 @@ interface IHeaderProps {
 
 export class Header extends Component<IHeaderProps> {
   render(): ReactNode {
-    return <header className={classes.header}>{this.props.children}</header>;
+    return (
+      <header className={classes.header}>
+        <div className={classes.headerWrapper}>{this.props.children}</div>
+      </header>
+    );
   }
 }
 

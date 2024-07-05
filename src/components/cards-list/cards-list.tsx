@@ -7,13 +7,13 @@ import { Loading } from '@components/loading';
 interface ICards {
   cards: ICard[];
   isLoading: boolean;
-  error: string;
+  errorMessage: string;
 }
 
 export class CardsList extends Component<ICards> {
   render(): ReactNode {
-    if (this.props.error) {
-      return <h2 className={classes.message}>{this.props.error}</h2>;
+    if (this.props.errorMessage) {
+      return <h2 className={classes.message}>{this.props.errorMessage}</h2>;
     }
 
     if (this.props.isLoading) {

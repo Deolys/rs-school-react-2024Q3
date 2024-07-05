@@ -14,10 +14,12 @@ export class Card extends Component<ICardProps> {
         <img src={card.images.jpg.image_url} alt={card.title} />
         <div className={classes.card__info}>
           <h3 className={classes.cardTitle}>{card.title}</h3>
-          <p>
-            <span>Score: </span>
-            {card.score}
-          </p>
+          {card.score && (
+            <p>
+              <span>Score: </span>
+              {card.score}
+            </p>
+          )}
           {card.year && (
             <p>
               <span>Year: </span>

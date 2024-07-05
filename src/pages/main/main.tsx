@@ -48,7 +48,7 @@ export class Main extends Component {
           <CardsList
             cards={this.state.cards}
             isLoading={this.state.isLoading}
-            error={this.state.error}
+            errorMessage={this.state.error}
           />
         </main>
       </>
