@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  mask-image: conic-gradient(from 15deg, #0000, #000);
+  animation: loading 1s infinite steps(12);
+ 
+  &,
+  &:before,
+  &:after {
+    content: "";
+    grid-area: 1/1;
+    transform: rotate(30deg);
+    background:
+      radial-gradient(closest-side at 50% 12.5%,
+        #335ff0 96%, #0000) 50% 0/20% 80% repeat-y,
+      radial-gradient(closest-side at 12.5% 50%,
+        #335ff0 96%, #0000) 0 50%/80% 20% repeat-x;
+  }
+
+  &:after {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes loading {
+  100% {
+    transform: rotate(1turn)
+  }
+}

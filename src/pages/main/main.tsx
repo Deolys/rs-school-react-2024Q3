@@ -5,6 +5,7 @@ import { api } from '@services/api';
 import { Header } from '@components/header';
 import { Search } from '@components/search';
 import { ErrorButton } from '@components/error-button';
+import { Loading } from '@components/loading';
 
 export class Main extends Component {
   state = {
@@ -14,9 +15,10 @@ export class Main extends Component {
 
   async componentDidMount(): Promise<void> {
     try {
+      this.setState({ isLoading: true });
       const searchTerm: string | null = localStorage.getItem('search-term');
       const fetchedCards = searchTerm ? await api.searchCards(searchTerm) : await api.fetchCards();
-      this.setState({ cards: fetchedCards?.data });
+      this.setState({ cards: fetchedCards?.data, isLoading: false });
     } catch (error) {
       console.error('Error while fetching cards:', error);
     }
@@ -24,8 +26,9 @@ export class Main extends Component {
 
   handleSearchCards = async (searchTerm: string): Promise<void> => {
     try {
+      this.setState({ isLoading: true });
       const fetchedCards = await api.searchCards(searchTerm);
-      this.setState({ cards: fetchedCards?.data });
+      this.setState({ cards: fetchedCards?.data, isLoading: false });
     } catch (error) {
       console.error('Error while fetching cards:', error);
     }
@@ -40,7 +43,7 @@ export class Main extends Component {
           <ErrorButton />
         </Header>
         <main className={classes.wrapper}>
-          <CardsList cards={this.state.cards} />
+          {this.state.isLoading ? <Loading /> : <CardsList cards={this.state.cards} />}
         </main>
       </>
     );
