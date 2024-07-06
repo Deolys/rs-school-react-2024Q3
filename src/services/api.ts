@@ -1,4 +1,4 @@
-import { ICardsData } from './types';
+import { ICardsData } from './interfaces';
 import { SERVER_URL } from './variables';
 
 export const api = {

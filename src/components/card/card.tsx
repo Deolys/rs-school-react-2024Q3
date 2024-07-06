@@ -1,5 +1,6 @@
-import { Component, ReactNode } from 'react';
-import { ICard } from '@services/types';
+import { Component } from 'react';
+import type { ReactNode } from 'react';
+import { ICard } from '@services/interfaces';
 import classes from './card.module.scss';
 
 interface ICardProps {

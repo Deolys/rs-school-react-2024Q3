@@ -1,10 +1,11 @@
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
+import type { ReactNode } from 'react';
 import { CardsList } from '@components/cards-list';
-import classes from './main.module.scss';
 import { api } from '@services/api';
 import { Header } from '@components/header';
 import { Search } from '@components/search';
 import { ErrorButton } from '@components/error-button';
+import classes from './main.module.scss';
 
 export class Main extends Component {
   state = {

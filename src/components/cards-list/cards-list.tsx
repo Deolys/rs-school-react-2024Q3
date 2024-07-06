@@ -1,7 +1,8 @@
 import { Card } from '@components/card';
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
+import type { ReactNode } from 'react';
 import classes from './cards-list.module.scss';
-import { ICard } from '@services/types';
+import { ICard } from '@services/interfaces';
 import { Loading } from '@components/loading';
 
 interface ICards {

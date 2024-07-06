@@ -1,4 +1,5 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
+import { ChangeEvent, Component } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import classes from './search.module.scss';
 
 interface ISearch {
