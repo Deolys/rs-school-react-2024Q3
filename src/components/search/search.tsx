@@ -2,11 +2,15 @@ import { ChangeEvent, Component } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import classes from './search.module.scss';
 
-interface ISearch {
+interface SearchProps {
   searchCards: (searchTerm: string) => void;
 }
 
-export class Search extends Component<ISearch> {
+interface SearchState {
+  searchTerm: string;
+}
+
+export class Search extends Component<SearchProps, SearchState> {
   state = {
     searchTerm: '',
   };

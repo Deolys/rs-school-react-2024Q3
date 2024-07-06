@@ -13,7 +13,7 @@ export interface ICard {
   }[];
 }
 
-export interface ICardsData {
+export interface CardsData {
   data: ICard[];
   pagination: {
     last_visible_page: number;

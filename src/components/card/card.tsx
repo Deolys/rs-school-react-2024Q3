@@ -3,11 +3,11 @@ import type { ReactNode } from 'react';
 import { ICard } from '@services/interfaces';
 import classes from './card.module.scss';
 
-interface ICardProps {
+interface CardProps {
   card: ICard;
 }
 
-export class Card extends Component<ICardProps> {
+export class Card extends Component<CardProps> {
   render(): ReactNode {
     const { card } = this.props;
     return (

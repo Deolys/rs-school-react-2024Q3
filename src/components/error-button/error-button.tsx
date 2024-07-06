@@ -2,8 +2,12 @@ import { Component } from 'react';
 import type { ReactNode } from 'react';
 import classes from './error-button.module.scss';
 
+interface ErrorButtonState {
+  hasError: boolean;
+}
+
 export class ErrorButton extends Component {
-  state = {
+  state: ErrorButtonState = {
     hasError: false,
   };
 

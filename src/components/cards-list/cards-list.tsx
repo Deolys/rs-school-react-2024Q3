@@ -5,13 +5,13 @@ import classes from './cards-list.module.scss';
 import { ICard } from '@services/interfaces';
 import { Loading } from '@components/loading';
 
-interface ICards {
+interface CardsListProps {
   cards: ICard[];
   isLoading: boolean;
   errorMessage: string;
 }
 
-export class CardsList extends Component<ICards> {
+export class CardsList extends Component<CardsListProps> {
   render(): ReactNode {
     if (this.props.errorMessage) {
       return <h2 className={classes.message}>{this.props.errorMessage}</h2>;

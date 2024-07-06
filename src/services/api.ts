@@ -1,14 +1,14 @@
-import { ICardsData } from './interfaces';
+import { CardsData } from './interfaces';
 import { SERVER_URL } from './variables';
 
 export const api = {
-  fetchCards: async (): Promise<ICardsData | null> => {
+  fetchCards: async (): Promise<CardsData | null> => {
     const response = await fetch(`${SERVER_URL}?sfw=true`);
     const data = await response.json();
     return data;
   },
 
-  searchCards: async (query: string, page: number = 1): Promise<ICardsData | null> => {
+  searchCards: async (query: string, page: number = 1): Promise<CardsData | null> => {
     const params = new URLSearchParams({
       q: query,
       page: page.toString(),
@@ -20,7 +20,7 @@ export const api = {
   },
 };
 
-const removeDuplicates = (fullData: ICardsData): ICardsData => {
+const removeDuplicates = (fullData: CardsData): CardsData => {
   const { pagination, data } = fullData;
   const uniqueData = data.filter((card, index, self) => {
     return self.findIndex((c) => c.mal_id === card.mal_id) === index;

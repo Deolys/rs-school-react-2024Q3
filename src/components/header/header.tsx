@@ -2,11 +2,11 @@ import { Component } from 'react';
 import type { ReactNode } from 'react';
 import classes from './header.module.scss';
 
-interface IHeaderProps {
+interface HeaderProps {
   children: ReactNode;
 }
 
-export class Header extends Component<IHeaderProps> {
+export class Header extends Component<HeaderProps> {
   render(): ReactNode {
     return (
       <header className={classes.header}>

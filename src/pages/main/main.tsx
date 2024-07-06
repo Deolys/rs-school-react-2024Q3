@@ -6,9 +6,16 @@ import { Header } from '@components/header';
 import { Search } from '@components/search';
 import { ErrorButton } from '@components/error-button';
 import classes from './main.module.scss';
+import { ICard } from '@services/interfaces';
+
+interface MainState {
+  cards: ICard[] | [];
+  error: string;
+  isLoading: boolean;
+}
 
 export class Main extends Component {
-  state = {
+  state: MainState = {
     cards: [],
     error: '',
     isLoading: true,
