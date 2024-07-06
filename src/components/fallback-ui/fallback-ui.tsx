@@ -11,7 +11,7 @@ export class FallbackUI extends Component {
   render(): ReactNode {
     return (
       <div className={classes.fallbackWrapper}>
-        <img src={CatFailImg} />
+        <img src={CatFailImg} alt="The image of a cat's failure" />
         <h3>Something went wrong...</h3>
         <button className={classes.retryButton} onClick={this.handleReloadPage} type="button">
           Retry
