@@ -20,6 +20,7 @@ export const api = {
   },
 };
 
+//important: removes duplicates from the data due to a backend bug
 const removeDuplicates = (fullData: CardsData): CardsData => {
   const { pagination, data } = fullData;
   const uniqueData = data.filter((card, index, self) => {
