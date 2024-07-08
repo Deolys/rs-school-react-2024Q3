@@ -1,0 +1,12 @@
+.cardsList {
+  margin-top: 40px;
+  padding-inline: clamp(2.188rem, 1.027rem + 5.8vw, 6.25rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(222px, 1fr));
+  gap: 50px;
+}
+
+.message {
+  text-align: center;
+  margin-top: 40px;
+}

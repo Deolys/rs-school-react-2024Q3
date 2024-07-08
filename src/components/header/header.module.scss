@@ -1,0 +1,19 @@
+.headerWrapper {
+  max-width: 1600px;
+  width: 100%;
+  padding: 16px clamp(2.188rem, 1.027rem + 5.8vw, 6.25rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #b3c3f5;
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+}
