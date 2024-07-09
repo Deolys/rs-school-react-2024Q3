@@ -5,21 +5,24 @@ import { api } from '@services/api';
 import { Header } from '@components/header';
 import { Search } from '@components/search';
 import classes from './main.module.scss';
-import { ICard } from '@services/interfaces';
+import { ICard, PaginationData } from '@services/interfaces';
+import { Pagination } from '@components/pagination';
 
 export function Main(): JSX.Element {
-  const [cards, setCards] = useState<ICard[] | []>([]);
+  const [cardsData, setCardsData] = useState<ICard[] | []>([]);
+  const [paginationData, setPaginationData] = useState<PaginationData | null>(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
-    const searchTerm = localStorage.getItem('search-term');
-    const cardsPromise = searchTerm ? api.searchCards(searchTerm) : api.fetchCards();
-
-    cardsPromise
+    const searchTerm = localStorage.getItem('search-term') || '';
+    api
+      .searchCards(searchTerm)
       .then((fetchedCards) => {
-        setCards(fetchedCards?.data || []);
+        setCardsData(fetchedCards?.data || []);
+        setPaginationData(fetchedCards?.pagination || null);
       })
       .catch((error) => {
         console.error('Error while fetching cards:', error);
@@ -30,12 +33,14 @@ export function Main(): JSX.Element {
       });
   }, []);
 
-  const handleSearchCards = (searchTerm: string): void => {
+  const handleSearchCards = (searchTerm: string, page: number = 1): void => {
     setIsLoading(true);
+    setCurrentPage(page);
     api
-      .searchCards(searchTerm)
+      .searchCards(searchTerm, page)
       .then((fetchedCards) => {
-        setCards(fetchedCards?.data || []);
+        setCardsData(fetchedCards?.data || []);
+        setPaginationData(fetchedCards?.pagination || null);
       })
       .catch((error) => {
         console.error('Error while fetching cards:', error);
@@ -46,13 +51,25 @@ export function Main(): JSX.Element {
       });
   };
 
+  const onPageChange = (page: number): void => {
+    const searchTerm = localStorage.getItem('search-term') || '';
+    handleSearchCards(searchTerm, page);
+  };
+
   return (
     <>
       <Header>
         <Search searchCards={handleSearchCards} />
       </Header>
       <main className={classes.wrapper}>
-        <CardList cards={cards} isLoading={isLoading} errorMessage={error} />
+        <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
+        {!isLoading && cardsData.length > 0 && (
+          <Pagination
+            paginationData={paginationData}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        )}
       </main>
     </>
   );
