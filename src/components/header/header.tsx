@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import classes from './header.module.scss';
 
 interface HeaderProps {
-  children: JSX.Element[];
+  children: JSX.Element;
 }
 
 export function Header({ children }: HeaderProps): JSX.Element {

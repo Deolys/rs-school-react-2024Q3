@@ -4,7 +4,6 @@ import { CardsList } from '@components/cards-list';
 import { api } from '@services/api';
 import { Header } from '@components/header';
 import { Search } from '@components/search';
-import { ErrorButton } from '@components/error-button';
 import classes from './main.module.scss';
 import { ICard } from '@services/interfaces';
 
@@ -50,9 +49,7 @@ export function Main(): JSX.Element {
   return (
     <>
       <Header>
-        <span></span>
         <Search searchCards={handleSearchCards} />
-        <ErrorButton />
       </Header>
       <main className={classes.wrapper}>
         <CardsList cards={cards} isLoading={isLoading} errorMessage={error} />
