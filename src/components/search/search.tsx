@@ -1,56 +1,48 @@
-import { ChangeEvent, Component } from 'react';
-import type { FormEvent, ReactNode } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
 import classes from './search.module.scss';
 
 interface SearchProps {
   searchCards: (searchTerm: string) => void;
 }
 
-interface SearchState {
-  searchTerm: string;
-}
+export function Search({ searchCards }: SearchProps): JSX.Element {
+  const [searchTerm, setSearchTerm] = useState('');
 
-export class Search extends Component<SearchProps, SearchState> {
-  state = {
-    searchTerm: '',
-  };
-
-  handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const searchTerm = this.state.searchTerm.trim();
-    localStorage.setItem('search-term', searchTerm);
-    this.props.searchCards(searchTerm);
+    const searchValue = searchTerm.trim();
+    localStorage.setItem('search-term', searchValue);
+    searchCards(searchValue);
   };
 
-  handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ searchTerm: e.target.value });
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSearchTerm(e.target.value);
   };
 
-  componentDidMount(): void {
-    const searchTerm: string | null = localStorage.getItem('search-term');
-    if (searchTerm) {
-      this.setState({ searchTerm });
+  useEffect(() => {
+    const searchValue: string | null = localStorage.getItem('search-term');
+    if (searchValue) {
+      setSearchTerm(searchValue);
     }
-  }
+  }, []);
 
-  render(): ReactNode {
-    return (
-      <div className={classes.searchContainer}>
-        <form className={classes.searchForm} onSubmit={this.handleSubmit}>
-          <input
-            className={classes.searchInput}
-            onChange={this.handleSearchChange}
-            value={this.state.searchTerm}
-            type="search"
-            placeholder="Search for anime..."
-          />
-          <button className={classes.searchButton} type="submit">
-            Search
-          </button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className={classes.searchContainer}>
+      <form className={classes.searchForm} onSubmit={handleSubmit}>
+        <input
+          className={classes.searchInput}
+          onChange={handleSearchChange}
+          value={searchTerm}
+          type="search"
+          placeholder="Search for anime..."
+        />
+        <button className={classes.searchButton} type="submit">
+          Search
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Search;

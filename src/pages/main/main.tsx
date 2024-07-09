@@ -1,5 +1,4 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { CardsList } from '@components/cards-list';
 import { api } from '@services/api';
 import { Header } from '@components/header';
@@ -8,60 +7,57 @@ import { ErrorButton } from '@components/error-button';
 import classes from './main.module.scss';
 import { ICard } from '@services/interfaces';
 
-interface MainState {
-  cards: ICard[] | [];
-  error: string;
-  isLoading: boolean;
-}
+export function Main(): JSX.Element {
+  const [cards, setCards] = useState<ICard[] | []>([]);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-export class Main extends Component {
-  state: MainState = {
-    cards: [],
-    error: '',
-    isLoading: true,
+  useEffect(() => {
+    setIsLoading(true);
+    const searchTerm = localStorage.getItem('search-term');
+    const cardsPromise = searchTerm ? api.searchCards(searchTerm) : api.fetchCards();
+
+    cardsPromise
+      .then((fetchedCards) => {
+        setCards(fetchedCards?.data || []);
+      })
+      .catch((error) => {
+        console.error('Error while fetching cards:', error);
+        setError('Sorry, something went wrong');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  const handleSearchCards = (searchTerm: string): void => {
+    setIsLoading(true);
+    api
+      .searchCards(searchTerm)
+      .then((fetchedCards) => {
+        setCards(fetchedCards?.data || []);
+      })
+      .catch((error) => {
+        console.error('Error while fetching cards:', error);
+        setError('The search failed. Please, try again later');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  async componentDidMount(): Promise<void> {
-    try {
-      this.setState({ isLoading: true });
-      const searchTerm: string | null = localStorage.getItem('search-term');
-      const fetchedCards = searchTerm ? await api.searchCards(searchTerm) : await api.fetchCards();
-      this.setState({ cards: fetchedCards?.data || [], isLoading: false });
-    } catch (error) {
-      console.error('Error while fetching cards:', error);
-      this.setState({ error: 'Sorry, something went wrong' });
-    }
-  }
-
-  handleSearchCards = async (searchTerm: string): Promise<void> => {
-    try {
-      this.setState({ isLoading: true });
-      const fetchedCards = await api.searchCards(searchTerm);
-      this.setState({ cards: fetchedCards?.data || [], isLoading: false });
-    } catch (error) {
-      console.error('Error while fetching cards:', error);
-      this.setState({ error: 'The search failed. Please, try again later' });
-    }
-  };
-
-  render(): ReactNode {
-    return (
-      <>
-        <Header>
-          <span></span>
-          <Search searchCards={this.handleSearchCards} />
-          <ErrorButton />
-        </Header>
-        <main className={classes.wrapper}>
-          <CardsList
-            cards={this.state.cards}
-            isLoading={this.state.isLoading}
-            errorMessage={this.state.error}
-          />
-        </main>
-      </>
-    );
-  }
+  return (
+    <>
+      <Header>
+        <span></span>
+        <Search searchCards={handleSearchCards} />
+        <ErrorButton />
+      </Header>
+      <main className={classes.wrapper}>
+        <CardsList cards={cards} isLoading={isLoading} errorMessage={error} />
+      </main>
+    </>
+  );
 }
 
 export default Main;
