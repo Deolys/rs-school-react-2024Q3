@@ -1,16 +1,16 @@
 import { Card } from '@components/card';
 import type { JSX } from 'react';
-import classes from './cards-list.module.scss';
+import classes from './card-list.module.scss';
 import { ICard } from '@services/interfaces';
 import { Loading } from '@components/loading';
 
-interface CardsListProps {
+interface CardListProps {
   cards: ICard[];
   isLoading: boolean;
   errorMessage: string;
 }
 
-export function CardsList({ cards, isLoading, errorMessage }: CardsListProps): JSX.Element {
+export function CardList({ cards, isLoading, errorMessage }: CardListProps): JSX.Element {
   if (errorMessage) {
     return <h2 className={classes.message}>{errorMessage}</h2>;
   }
@@ -20,7 +20,7 @@ export function CardsList({ cards, isLoading, errorMessage }: CardsListProps): J
   }
 
   return cards.length > 0 ? (
-    <section className={classes.cardsList}>
+    <section className={classes.cardList}>
       {cards.map((card) => (
         <Card key={card.mal_id} card={card} />
       ))}
@@ -32,4 +32,4 @@ export function CardsList({ cards, isLoading, errorMessage }: CardsListProps): J
   );
 }
 
-export default CardsList;
+export default CardList;
