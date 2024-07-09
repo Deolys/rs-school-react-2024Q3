@@ -1,5 +1,7 @@
 import type { JSX } from 'react';
 import { PaginationData } from '@services/interfaces';
+import { getStartEndNums } from './get-start-end-nums';
+import classes from './pagination.module.scss';
 
 interface PaginationProps {
   paginationData: PaginationData | null;
@@ -16,42 +18,43 @@ export function Pagination({
   const showStartDots = currentPage > 3;
   const showEndDots = currentPage < totalPageCount - 3;
 
-  let startPage: number, endPage: number;
-
-  if (totalPageCount <= 5) {
-    startPage = 1;
-    endPage = totalPageCount;
-  } else {
-    if (currentPage <= 3) {
-      startPage = 1;
-      endPage = 4;
-    } else if (currentPage + 2 >= totalPageCount) {
-      startPage = totalPageCount - 3;
-      endPage = totalPageCount;
-    } else {
-      startPage = currentPage - 1;
-      endPage = currentPage + 2;
-    }
-  }
+  const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
 
   const pageNums = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
 
   return (
-    <nav>
-      {currentPage > 1 && <button onClick={() => onPageChange(currentPage - 1)}>Previous</button>}
-      {showStartDots && <button onClick={() => onPageChange(1)}>1</button>}
+    <nav className={classes.pagination}>
+      {currentPage > 1 && (
+        <button className={classes.sideButton} onClick={() => onPageChange(currentPage - 1)}>
+          Previous
+        </button>
+      )}
+      {showStartDots && (
+        <button className={classes.paginationButton} onClick={() => onPageChange(1)}>
+          1
+        </button>
+      )}
       {showStartDots && <span>...</span>}
       {pageNums.map((number) => (
-        <button key={number} disabled={number === currentPage} onClick={() => onPageChange(number)}>
+        <button
+          className={classes.paginationButton}
+          key={number}
+          disabled={number === currentPage}
+          onClick={() => onPageChange(number)}
+        >
           {number}
         </button>
       ))}
       {showEndDots && <span>...</span>}
       {showEndDots && (
-        <button onClick={() => onPageChange(totalPageCount)}>{totalPageCount}</button>
+        <button className={classes.paginationButton} onClick={() => onPageChange(totalPageCount)}>
+          {totalPageCount}
+        </button>
       )}
       {paginationData?.has_next_page && (
-        <button onClick={() => onPageChange(currentPage + 1)}>Next</button>
+        <button className={classes.sideButton} onClick={() => onPageChange(currentPage + 1)}>
+          Next
+        </button>
       )}
     </nav>
   );
