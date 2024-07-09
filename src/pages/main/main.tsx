@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { JSX } from 'react';
 import { CardsList } from '@components/cards-list';
 import { api } from '@services/api';
 import { Header } from '@components/header';
