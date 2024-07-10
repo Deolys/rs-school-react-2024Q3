@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function saveSearchQueryToLS(key: string, query: string): void {
   window.localStorage.setItem(key, query);
@@ -10,12 +10,21 @@ function getSearchQueryFromLS(key: string): string {
   return savedQuery;
 }
 
+function useOnUnmount(callback: () => void): void {
+  const onUnmount = useRef<(() => void) | null>(null);
+  onUnmount.current = callback;
+
+  useEffect(() => {
+    return () => onUnmount.current?.();
+  }, []);
+}
+
 export default function useSearchQuery(key: string): [string, (query: string) => void] {
   const [searchQuery, setSearchQuery] = useState(getSearchQueryFromLS(key));
 
-  useEffect(() => {
-    return () => saveSearchQueryToLS(key, searchQuery);
-  }, [key, searchQuery]);
+  useOnUnmount(() => {
+    saveSearchQueryToLS(key, searchQuery);
+  });
 
   return [searchQuery, setSearchQuery];
 }

@@ -16,6 +16,7 @@ export function Search({ searchCards }: SearchProps): JSX.Element {
     const searchValue = searchTerm.trim();
     setSearchQuery(searchValue);
     searchCards(searchValue);
+    window.localStorage.setItem('search-term', searchValue);
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {

@@ -33,8 +33,10 @@ export function Main(): JSX.Element {
   );
 
   useEffect(() => {
-    searchParams.set('q', searchQuery);
-    setSearchParams(searchParams);
+    if (searchQuery) {
+      searchParams.set('q', searchQuery);
+      setSearchParams(searchParams);
+    }
     const page = searchParams.get('page');
     setCurrentPage(Number(page ?? 1));
 
