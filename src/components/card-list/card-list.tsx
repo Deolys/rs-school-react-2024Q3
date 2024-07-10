@@ -1,5 +1,5 @@
-import { Card } from '@components/card';
 import type { JSX } from 'react';
+import { Card } from '@components/card';
 import classes from './card-list.module.scss';
 import { ICard } from '@services/interfaces';
 import { Loading } from '@components/loading';
