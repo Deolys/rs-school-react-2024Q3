@@ -7,7 +7,7 @@ import { Search } from '@components/search';
 import classes from './main.module.scss';
 import { ICard, PaginationData } from '@services/interfaces';
 import { Pagination } from '@components/pagination';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import useSearchQuery from '../../hooks/use-search-query';
 
 export function Main(): JSX.Element {
@@ -33,12 +33,13 @@ export function Main(): JSX.Element {
   );
 
   useEffect(() => {
+    const page = searchParams.get('page') || '1';
+    searchParams.set('page', page);
     if (searchQuery) {
       searchParams.set('q', searchQuery);
-      setSearchParams(searchParams);
     }
-    const page = searchParams.get('page');
-    setCurrentPage(Number(page ?? 1));
+    setSearchParams(searchParams);
+    setCurrentPage(Number(page));
 
     setIsLoading(true);
     api
@@ -77,6 +78,7 @@ export function Main(): JSX.Element {
           />
         )}
       </main>
+      <Outlet />
     </>
   );
 }
