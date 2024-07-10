@@ -1,14 +1,14 @@
 import { ChangeEvent, useState } from 'react';
 import type { FormEvent } from 'react';
 import classes from './search.module.scss';
+import useSearchQuery from '../../hooks/use-search-query';
 
 interface SearchProps {
   searchCards: (searchTerm: string) => void;
-  setSearchQuery: (searchTerm: string) => void;
-  searchQuery: string;
 }
 
-export function Search({ searchCards, setSearchQuery, searchQuery }: SearchProps): JSX.Element {
+export function Search({ searchCards }: SearchProps): JSX.Element {
+  const [searchQuery, setSearchQuery] = useSearchQuery('search-term');
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {

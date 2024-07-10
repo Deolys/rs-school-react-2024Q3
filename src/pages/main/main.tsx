@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { JSX } from 'react';
 import { CardList } from '@components/card-list';
 import { api } from '@services/api';
@@ -19,15 +19,18 @@ export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useSearchQuery('search-term');
 
-  const searchCards = (searchTerm: string): void => {
-    const newSearchParams: { page: string; q?: string } = { page: '1' };
-    if (searchTerm) {
-      newSearchParams.q = searchTerm;
-    }
-    setSearchParams(newSearchParams);
-    setCurrentPage(1);
-  };
-  console.log(2);
+  const searchCards = useCallback(
+    (searchTerm: string): void => {
+      const newSearchParams: { page: string; q?: string } = { page: '1' };
+      if (searchTerm) {
+        newSearchParams.q = searchTerm;
+      }
+      setSearchParams(newSearchParams);
+      setCurrentPage(1);
+      setSearchQuery(searchTerm);
+    },
+    [setSearchParams, setSearchQuery],
+  );
 
   useEffect(() => {
     searchParams.set('q', searchQuery);
@@ -60,11 +63,7 @@ export function Main(): JSX.Element {
   return (
     <>
       <Header>
-        <Search
-          searchCards={searchCards}
-          setSearchQuery={setSearchQuery}
-          searchQuery={searchQuery}
-        />
+        <Search searchCards={searchCards} />
       </Header>
       <main className={classes.wrapper}>
         <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
