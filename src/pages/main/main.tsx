@@ -56,13 +56,18 @@ export function Main(): JSX.Element {
     setSearchParams(searchParams);
   };
 
+  const handleAsideClose = (): void => {
+    searchParams.delete('details');
+    setSearchParams(searchParams);
+  };
+
   return (
     <>
       <Header>
         <Search searchCards={searchCards} queryParam={queryParam} />
       </Header>
       <div className={classes.container}>
-        <main className={classes.wrapper}>
+        <main className={classes.wrapper} onClick={handleAsideClose}>
           <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
           {!isLoading && !error && cardsData.length > 0 && (
             <Pagination
