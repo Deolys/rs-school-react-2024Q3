@@ -6,12 +6,12 @@ import classes from './card-details.module.scss';
 interface CardDetailsProps {
   card: ICard | null;
   isLoading: boolean;
-  error: string;
+  errorMessage: string;
 }
 
-export function CardDetails({ card, isLoading, error }: CardDetailsProps): JSX.Element {
-  if (error) {
-    return <div>Error</div>;
+export function CardDetails({ card, isLoading, errorMessage }: CardDetailsProps): JSX.Element {
+  if (errorMessage) {
+    return <h2 className={classes.message}>{errorMessage}</h2>;
   }
 
   if (isLoading) {

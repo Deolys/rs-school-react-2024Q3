@@ -22,6 +22,7 @@ export function MainAsideDetails(): JSX.Element {
       .getCardById(Number(details))
       .then((fetchedCard) => {
         setCardData(fetchedCard?.data || null);
+        setError('');
       })
       .catch((error) => {
         console.error('Error while fetching card:', error);
@@ -42,9 +43,9 @@ export function MainAsideDetails(): JSX.Element {
       {details && (
         <aside className={classes.asideWrapper}>
           <button className={classes.closeButton} type="button" onClick={handleClose}>
-            <img src={crossImg} />
+            <img src={crossImg} alt="cross" />
           </button>
-          <CardDetails card={cardData} isLoading={isLoading} error={error} />
+          <CardDetails card={cardData} isLoading={isLoading} errorMessage={error} />
         </aside>
       )}
     </>
