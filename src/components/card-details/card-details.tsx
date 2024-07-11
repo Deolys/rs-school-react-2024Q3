@@ -20,7 +20,7 @@ export function CardDetails({ card, isLoading, error }: CardDetailsProps): JSX.E
 
   return (
     <div className={classes.detailsWrapper}>
-      <h1>{card?.title}</h1>
+      <h1 className={classes.detailsTitle}>{card?.title}</h1>
       <p>Duration: {card?.duration}</p>
       <p>Rank: {card?.rank}</p>
       <p>{card?.synopsis}</p>

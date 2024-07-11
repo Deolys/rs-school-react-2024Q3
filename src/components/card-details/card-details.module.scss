@@ -4,3 +4,8 @@
   flex-direction: column;
   gap: 14px;
 }
+
+.detailsTitle {
+  max-width: calc(100% - 30px);
+  color: var(--text-color);
+}
