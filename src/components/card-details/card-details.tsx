@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import { Loading } from '@components/loading';
 import { ICard } from '@services/interfaces';
+import classes from './card-details.module.scss';
 
 interface CardDetailsProps {
   card: ICard | null;
@@ -18,10 +19,10 @@ export function CardDetails({ card, isLoading, error }: CardDetailsProps): JSX.E
   }
 
   return (
-    <div>
+    <div className={classes.detailsWrapper}>
       <h1>{card?.title}</h1>
-      <p>{card?.duration}</p>
-      <p>{card?.rank}</p>
+      <p>Duration: {card?.duration}</p>
+      <p>Rank: {card?.rank}</p>
       <p>{card?.synopsis}</p>
     </div>
   );

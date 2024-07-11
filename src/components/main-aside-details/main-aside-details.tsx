@@ -1,8 +1,9 @@
+import { useEffect, type JSX, useState } from 'react';
 import { CardDetails } from '@components/card-details/card-details';
 import { api } from '@services/api';
 import { ICard } from '@services/interfaces';
-import { useEffect, type JSX, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import classes from './main-aside-details.module.scss';
 
 export function MainAsideDetails(): JSX.Element {
   const [searchParams] = useSearchParams();
@@ -33,7 +34,7 @@ export function MainAsideDetails(): JSX.Element {
   return (
     <>
       {details && (
-        <aside>
+        <aside className={classes.asideWrapper}>
           <CardDetails card={cardData} isLoading={isLoading} error={error} />
         </aside>
       )}

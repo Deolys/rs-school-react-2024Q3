@@ -61,17 +61,19 @@ export function Main(): JSX.Element {
       <Header>
         <Search searchCards={searchCards} queryParam={queryParam} />
       </Header>
-      <main className={classes.wrapper}>
-        <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
-        {!isLoading && !error && cardsData.length > 0 && (
-          <Pagination
-            paginationData={paginationData}
-            currentPage={+currentPage}
-            onPageChange={onPageChange}
-          />
-        )}
-      </main>
-      <Outlet />
+      <div className={classes.container}>
+        <main className={classes.wrapper}>
+          <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
+          {!isLoading && !error && cardsData.length > 0 && (
+            <Pagination
+              paginationData={paginationData}
+              currentPage={+currentPage}
+              onPageChange={onPageChange}
+            />
+          )}
+        </main>
+        <Outlet />
+      </div>
     </>
   );
 }

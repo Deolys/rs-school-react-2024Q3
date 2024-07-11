@@ -1,0 +1,10 @@
+.asideWrapper {
+  width: 50%;
+  background-color: #f7f9ff;
+  height: calc(100vh - 70px);
+  position: sticky;
+  top: 72px;
+  right: 0;
+  padding: 20px;
+  overflow-y: auto;
+}
