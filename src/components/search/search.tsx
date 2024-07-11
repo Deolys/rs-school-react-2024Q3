@@ -1,27 +1,32 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import classes from './search.module.scss';
 import useSearchQuery from '../../hooks/use-search-query';
 
 interface SearchProps {
   searchCards: (searchTerm: string) => void;
+  queryParam: string;
 }
 
-export function Search({ searchCards }: SearchProps): JSX.Element {
-  const [searchQuery, setSearchQuery] = useSearchQuery('search-term');
-  const [searchTerm, setSearchTerm] = useState(searchQuery);
+export function Search({ searchCards, queryParam }: SearchProps): JSX.Element {
+  const [searchQuery, setSearchQuery] = useSearchQuery('search-term', '');
+  const [searchTerm, setSearchTerm] = useState(queryParam || searchQuery);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const searchValue = searchTerm.trim();
     setSearchQuery(searchValue);
     searchCards(searchValue);
-    window.localStorage.setItem('search-term', searchValue);
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
   };
+
+  useEffect(() => {
+    setSearchQuery(queryParam);
+    searchCards(queryParam);
+  }, [queryParam, searchCards, setSearchQuery]);
 
   return (
     <div className={classes.searchContainer}>

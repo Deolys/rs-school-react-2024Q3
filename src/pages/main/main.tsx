@@ -15,9 +15,11 @@ export function Main(): JSX.Element {
   const [paginationData, setPaginationData] = useState<PaginationData | null>(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useSearchQuery('search-term');
+  const [searchQuery] = useSearchQuery('search-term', '');
+
+  const queryParam = searchParams.get('q') || searchQuery;
+  const currentPage = searchParams.get('page') || '1';
 
   const searchCards = useCallback(
     (searchTerm: string): void => {
@@ -25,25 +27,17 @@ export function Main(): JSX.Element {
       if (searchTerm) {
         newSearchParams.q = searchTerm;
       }
-      setSearchParams(newSearchParams);
-      setCurrentPage(1);
-      setSearchQuery(searchTerm);
+      if (searchTerm && queryParam !== searchTerm) {
+        setSearchParams(newSearchParams);
+      }
     },
-    [setSearchParams, setSearchQuery],
+    [setSearchParams, queryParam],
   );
 
   useEffect(() => {
-    const page = searchParams.get('page') || '1';
-    searchParams.set('page', page);
-    if (searchQuery) {
-      searchParams.set('q', searchQuery);
-    }
-    setSearchParams(searchParams);
-    setCurrentPage(Number(page));
-
     setIsLoading(true);
     api
-      .searchCards(searchQuery, currentPage)
+      .searchCards(queryParam, +currentPage)
       .then((fetchedCards) => {
         setCardsData(fetchedCards?.data || []);
         setPaginationData(fetchedCards?.pagination || null);
@@ -55,25 +49,24 @@ export function Main(): JSX.Element {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [searchQuery, currentPage, searchParams, setSearchParams]);
+  }, [queryParam, currentPage, searchParams, setSearchParams]);
 
   const onPageChange = (page: number): void => {
     searchParams.set('page', page.toString());
     setSearchParams(searchParams);
-    setCurrentPage(page);
   };
 
   return (
     <>
       <Header>
-        <Search searchCards={searchCards} />
+        <Search searchCards={searchCards} queryParam={queryParam} />
       </Header>
       <main className={classes.wrapper}>
         <CardList cards={cardsData} isLoading={isLoading} errorMessage={error} />
         {!isLoading && !error && cardsData.length > 0 && (
           <Pagination
             paginationData={paginationData}
-            currentPage={currentPage}
+            currentPage={+currentPage}
             onPageChange={onPageChange}
           />
         )}

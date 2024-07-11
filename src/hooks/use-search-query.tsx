@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-function saveSearchQueryToLS(key: string, query: string): void {
-  window.localStorage.setItem(key, query);
-  return;
-}
-
-function getSearchQueryFromLS(key: string): string {
-  const savedQuery = window.localStorage.getItem(key) || '';
-  return savedQuery;
+function getSearchQueryFromLS(key: string, initialValue: string = ''): string {
+  try {
+    const savedQuery = window.localStorage.getItem(key);
+    return savedQuery ? JSON.parse(savedQuery) : initialValue;
+  } catch (error) {
+    console.error('Error saving value to localStorage', error);
+    return initialValue;
+  }
 }
 
 function useOnUnmount(callback: () => void): void {
@@ -19,12 +19,24 @@ function useOnUnmount(callback: () => void): void {
   }, []);
 }
 
-export default function useSearchQuery(key: string): [string, (query: string) => void] {
-  const [searchQuery, setSearchQuery] = useState(getSearchQueryFromLS(key));
+export default function useSearchQuery(
+  key: string,
+  initialValue: string,
+): [string, (query: string) => void] {
+  const [searchQuery, setSearchQuery] = useState(getSearchQueryFromLS(key, initialValue));
+
+  const setValue = (value: string): void => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      setSearchQuery(value);
+    } catch (error) {
+      console.error('Error saving value to localStorage', error);
+    }
+  };
 
   useOnUnmount(() => {
-    saveSearchQueryToLS(key, searchQuery);
+    setValue(searchQuery);
   });
 
-  return [searchQuery, setSearchQuery];
+  return [searchQuery, setValue];
 }
