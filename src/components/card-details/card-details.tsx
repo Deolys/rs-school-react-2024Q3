@@ -1,11 +1,28 @@
 import type { JSX } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Loading } from '@components/loading';
+import { ICard } from '@services/interfaces';
 
-export function CardDetails(): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const details = searchParams.get('details');
-
-  return <>{details && <aside>some details. {searchParams.get('details')}</aside>}</>;
+interface CardDetailsProps {
+  card: ICard | null;
+  isLoading: boolean;
+  error: string;
 }
 
-export default CardDetails;
+export function CardDetails({ card, isLoading, error }: CardDetailsProps): JSX.Element {
+  if (error) {
+    return <div>Error</div>;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <h1>{card?.title}</h1>
+      <p>{card?.duration}</p>
+      <p>{card?.rank}</p>
+      <p>{card?.synopsis}</p>
+    </div>
+  );
+}

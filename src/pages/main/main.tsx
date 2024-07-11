@@ -49,7 +49,7 @@ export function Main(): JSX.Element {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [queryParam, currentPage, searchParams, setSearchParams]);
+  }, [queryParam, currentPage]);
 
   const onPageChange = (page: number): void => {
     searchParams.set('page', page.toString());

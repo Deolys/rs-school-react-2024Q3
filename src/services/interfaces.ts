@@ -2,6 +2,9 @@ export interface ICard {
   mal_id: number;
   title: string;
   score: number;
+  duration: string;
+  rank: number;
+  synopsis: string;
   images: {
     jpg: {
       image_url: string;
@@ -26,4 +29,8 @@ export interface PaginationData {
 export interface CardsData {
   data: ICard[];
   pagination: PaginationData;
+}
+
+export interface CardData {
+  data: ICard;
 }

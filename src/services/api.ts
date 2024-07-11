@@ -1,13 +1,7 @@
-import { CardsData } from './interfaces';
+import { CardData, CardsData } from './interfaces';
 import { SERVER_URL } from './variables';
 
 export const api = {
-  fetchCards: async (): Promise<CardsData | null> => {
-    const response = await fetch(`${SERVER_URL}?sfw=true`);
-    const data = await response.json();
-    return data;
-  },
-
   searchCards: async (query: string, page: number = 1): Promise<CardsData | null> => {
     const params = new URLSearchParams({
       page: page.toString(),
@@ -19,6 +13,12 @@ export const api = {
     const response = await fetch(`${SERVER_URL}?${params.toString()}`);
     const data = await response.json();
     return removeDuplicates(data);
+  },
+  getCardById: async (id: number): Promise<CardData | null> => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const response = await fetch(`${SERVER_URL}/${id}`);
+    const data = await response.json();
+    return data;
   },
 };
 
