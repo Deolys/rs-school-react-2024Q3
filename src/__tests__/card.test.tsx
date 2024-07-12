@@ -46,7 +46,7 @@ describe('Card Component', () => {
   it('triggers an additional API call to fetch detailed information on click', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockCardData));
     render(
-      <MemoryRouter initialEntries={['/?page=1&q=Title']}>
+      <MemoryRouter>
         <PageRoutes />
       </MemoryRouter>,
     );
