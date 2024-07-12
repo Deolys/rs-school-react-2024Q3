@@ -1,4 +1,4 @@
-import { CardsData, ICard } from '@services/interfaces';
+import { CardsData, ICard, PaginationData } from '@services/interfaces';
 
 export const mockCards: ICard[] = [
   {
@@ -50,15 +50,17 @@ export const mockCards: ICard[] = [
 
 export const mockCard: ICard = mockCards[0];
 
+export const mockPagination: PaginationData = {
+  last_visible_page: 1013,
+  has_next_page: true,
+  items: {
+    count: 25,
+    total: 25324,
+    per_page: 25,
+  },
+};
+
 export const mockCardData: CardsData = {
   data: [mockCards[0]],
-  pagination: {
-    last_visible_page: 1013,
-    has_next_page: true,
-    items: {
-      count: 25,
-      total: 25324,
-      per_page: 25,
-    },
-  },
+  pagination: mockPagination,
 };
