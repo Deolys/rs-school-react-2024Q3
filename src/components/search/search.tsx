@@ -10,7 +10,7 @@ interface SearchProps {
 
 export function Search({ searchCards, queryParam }: SearchProps): JSX.Element {
   const [searchQuery, setSearchQuery] = useSearchQuery('search-term', '');
-  const [searchTerm, setSearchTerm] = useState(queryParam || searchQuery);
+  const [searchTerm, setSearchTerm] = useState(queryParam);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -24,9 +24,8 @@ export function Search({ searchCards, queryParam }: SearchProps): JSX.Element {
   };
 
   useEffect(() => {
-    setSearchQuery(queryParam);
     searchCards(queryParam);
-  }, [queryParam, searchCards, setSearchQuery]);
+  }, [searchCards, searchQuery, queryParam]);
 
   return (
     <div className={classes.searchContainer}>

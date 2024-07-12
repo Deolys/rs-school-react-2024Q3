@@ -18,7 +18,7 @@ export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery] = useSearchQuery('search-term', '');
 
-  const queryParam = searchParams.get('q') || searchQuery;
+  const [queryParam, setQueryParam] = useState(searchParams.get('q') || searchQuery);
   const currentPage = searchParams.get('page') || '1';
 
   const searchCards = useCallback(
@@ -27,7 +27,8 @@ export function Main(): JSX.Element {
       if (searchTerm) {
         newSearchParams.q = searchTerm;
       }
-      if (searchTerm && queryParam !== searchTerm) {
+      if (queryParam !== searchTerm) {
+        setQueryParam(searchTerm);
         setSearchParams(newSearchParams);
       }
     },
