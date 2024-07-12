@@ -27,3 +27,5 @@ export function CardDetails({ card, isLoading, errorMessage }: CardDetailsProps)
     </div>
   );
 }
+
+export default CardDetails;
