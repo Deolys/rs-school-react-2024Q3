@@ -11,7 +11,6 @@ describe('NotFoundPage', () => {
       </MemoryRouter>,
     );
     const message = screen.getByText(/page not found/i);
-    expect(1).toBe(2);
     expect(message).toBeInTheDocument();
   });
 });
