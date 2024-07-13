@@ -1,4 +1,4 @@
-import type { JSX, MouseEvent } from 'react';
+import type { JSX } from 'react';
 import { ICard } from '@services/interfaces';
 import classes from './card.module.scss';
 import { Link, useLocation } from 'react-router-dom';
@@ -12,12 +12,8 @@ export function Card({ card }: CardProps): JSX.Element {
   const searchParams = new URLSearchParams(location.search);
   searchParams.set('details', `${card.mal_id}`);
 
-  const handleClick = (e: MouseEvent): void => {
-    e.stopPropagation();
-  };
-
   return (
-    <Link to={`${location.pathname}?${searchParams}`} onClick={handleClick}>
+    <Link to={`${location.pathname}?${searchParams}`}>
       <article className={classes.card}>
         <img src={card.images.jpg.image_url} alt={card.title} />
         <div className={classes.card__info}>

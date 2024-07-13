@@ -58,8 +58,10 @@ export function Main(): JSX.Element {
   };
 
   const handleAsideClose = (): void => {
-    searchParams.delete('details');
-    setSearchParams(searchParams);
+    if (searchParams.has('details')) {
+      searchParams.delete('details');
+      setSearchParams(searchParams);
+    }
   };
 
   return (
