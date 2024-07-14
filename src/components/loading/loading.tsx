@@ -1,15 +1,12 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import type { JSX } from 'react';
 import classes from './loading.module.scss';
 
-export class Loading extends Component {
-  render(): ReactNode {
-    return (
-      <div className={classes.wrapper}>
-        <div className={classes.loader}></div>
-      </div>
-    );
-  }
+export function Loading(): JSX.Element {
+  return (
+    <div className={classes.wrapper}>
+      <div className={classes.loader} data-testid="loading"></div>
+    </div>
+  );
 }
 
 export default Loading;

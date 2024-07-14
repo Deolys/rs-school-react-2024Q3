@@ -1,19 +1,16 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import type { JSX } from 'react';
 import classes from './header.module.scss';
 
 interface HeaderProps {
-  children: ReactNode;
+  children: JSX.Element;
 }
 
-export class Header extends Component<HeaderProps> {
-  render(): ReactNode {
-    return (
-      <header className={classes.header}>
-        <div className={classes.headerWrapper}>{this.props.children}</div>
-      </header>
-    );
-  }
+export function Header({ children }: HeaderProps): JSX.Element {
+  return (
+    <header className={classes.header}>
+      <div className={classes.headerWrapper}>{children}</div>
+    </header>
+  );
 }
 
 export default Header;

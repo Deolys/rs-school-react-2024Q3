@@ -1,10 +1,13 @@
-import { Component, ReactNode } from 'react';
-import { Main } from './pages/main';
+import type { JSX } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { PageRoutes } from './routes';
 
-export class App extends Component {
-  render(): ReactNode {
-    return <Main />;
-  }
-}
+const App = (): JSX.Element => {
+  return (
+    <BrowserRouter>
+      <PageRoutes />
+    </BrowserRouter>
+  );
+};
 
 export default App;

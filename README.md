@@ -1,6 +1,6 @@
-# React class components
+# React Routing. Tests
 
-[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/class-components.md)
+[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/routing.md)
 
 ### Install dependencies
 
@@ -18,4 +18,10 @@ npm start
 
 ```shell
 npm run lint
+```
+
+### Running tests
+
+```shell
+npm test
 ```

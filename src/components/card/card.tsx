@@ -1,16 +1,19 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import type { JSX } from 'react';
 import { ICard } from '@services/interfaces';
 import classes from './card.module.scss';
+import { Link, useLocation } from 'react-router-dom';
 
 interface CardProps {
   card: ICard;
 }
 
-export class Card extends Component<CardProps> {
-  render(): ReactNode {
-    const { card } = this.props;
-    return (
+export function Card({ card }: CardProps): JSX.Element {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  searchParams.set('details', `${card.mal_id}`);
+
+  return (
+    <Link to={`${location.pathname}?${searchParams}`}>
       <article className={classes.card}>
         <img src={card.images.jpg.image_url} alt={card.title} />
         <div className={classes.card__info}>
@@ -30,8 +33,8 @@ export class Card extends Component<CardProps> {
           <p>{card.genres.map((genre) => genre.name).join(', ')}</p>
         </div>
       </article>
-    );
-  }
+    </Link>
+  );
 }
 
 export default Card;

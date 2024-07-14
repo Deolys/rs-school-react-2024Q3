@@ -1,0 +1,16 @@
+.detailsWrapper {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.detailsTitle {
+  max-width: calc(100% - 30px);
+  color: var(--text-color);
+}
+
+.message {
+  color: var(--text-color);
+  margin-top: 40px;
+}
