@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import { useMemo, type JSX } from 'react';
 import { PaginationData } from '@services/interfaces';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
@@ -15,10 +15,19 @@ export function Pagination({
   onPageChange,
 }: PaginationProps): JSX.Element {
   const totalPageCount = paginationData?.last_visible_page || 0;
-  const showStartDots = currentPage > 3;
-  const showEndDots = currentPage < totalPageCount - 3;
+  const { startPage, endPage } = useMemo(() => {
+    return getStartEndNums(totalPageCount, currentPage);
+  }, [totalPageCount, currentPage]);
 
-  const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
+  let showStartDots, showEndDots, showStartNumber, showEndNumber;
+
+  if (totalPageCount > 5) {
+    showStartDots = currentPage > 3;
+    showEndDots = currentPage < totalPageCount - 2;
+
+    showStartNumber = showStartDots || currentPage > 2;
+    showEndNumber = showEndDots || currentPage >= totalPageCount - 2;
+  }
 
   const pageNums = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
 
@@ -29,8 +38,12 @@ export function Pagination({
           Previous
         </button>
       )}
-      {showStartDots && (
-        <button className={classes.paginationButton} onClick={() => onPageChange(1)}>
+      {showStartNumber && (
+        <button
+          className={classes.paginationButton}
+          disabled={currentPage === 1}
+          onClick={() => onPageChange(1)}
+        >
           1
         </button>
       )}
@@ -46,8 +59,12 @@ export function Pagination({
         </button>
       ))}
       {showEndDots && <span>...</span>}
-      {showEndDots && (
-        <button className={classes.paginationButton} onClick={() => onPageChange(totalPageCount)}>
+      {showEndNumber && (
+        <button
+          className={classes.paginationButton}
+          disabled={totalPageCount === currentPage}
+          onClick={() => onPageChange(totalPageCount)}
+        >
           {totalPageCount}
         </button>
       )}
