@@ -9,6 +9,7 @@ import { ICard, PaginationData } from '@services/interfaces';
 import { Pagination } from '@components/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import useSearchQuery from '../../hooks/use-search-query';
+import { ThemeButton } from '@components/theme-button';
 
 export function Main(): JSX.Element {
   const [cardsData, setCardsData] = useState<ICard[]>([]);
@@ -67,7 +68,10 @@ export function Main(): JSX.Element {
   return (
     <>
       <Header>
-        <Search searchCards={searchCards} queryParam={queryParam} />
+        <>
+          <Search searchCards={searchCards} queryParam={queryParam} />
+          <ThemeButton />
+        </>
       </Header>
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
