@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
-function getSearchQueryFromLS(key: string, initialValue: string = ''): string {
+function getValueFromLS(key: string, initialValue: string = ''): string {
   try {
     const savedQuery = window.localStorage.getItem(key);
     return savedQuery ? JSON.parse(savedQuery) : initialValue;
@@ -10,20 +10,11 @@ function getSearchQueryFromLS(key: string, initialValue: string = ''): string {
   }
 }
 
-function useOnUnmount(callback: () => void): void {
-  const onUnmount = useRef<(() => void) | null>(null);
-  onUnmount.current = callback;
-
-  useEffect(() => {
-    return () => onUnmount.current?.();
-  }, []);
-}
-
 export default function useSearchQuery(
   key: string,
   initialValue: string,
 ): [string, (query: string) => void] {
-  const [searchQuery, setSearchQuery] = useState(getSearchQueryFromLS(key, initialValue));
+  const [searchQuery, setSearchQuery] = useState(getValueFromLS(key, initialValue));
 
   const setValue = (value: string): void => {
     try {
@@ -33,10 +24,6 @@ export default function useSearchQuery(
       console.error('Error saving value to localStorage', error);
     }
   };
-
-  useOnUnmount(() => {
-    setValue(searchQuery);
-  });
 
   return [searchQuery, setValue];
 }
