@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import { Loading } from '@components/loading';
 import { ICard } from '@services/interfaces';
+import { Alert } from '@components/alert';
 import classes from './card-details.module.scss';
 
 interface CardDetailsProps {
@@ -11,7 +12,7 @@ interface CardDetailsProps {
 
 export function CardDetails({ card, isLoading, errorMessage }: CardDetailsProps): JSX.Element {
   if (errorMessage) {
-    return <h2 className={classes.message}>{errorMessage}</h2>;
+    return <Alert variant="error">{errorMessage}</Alert>;
   }
 
   if (isLoading) {

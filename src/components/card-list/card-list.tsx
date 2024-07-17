@@ -1,8 +1,9 @@
 import type { JSX } from 'react';
 import { Card } from '@components/card';
-import classes from './card-list.module.scss';
 import { ICard } from '@services/interfaces';
 import { Loading } from '@components/loading';
+import { Alert } from '@components/alert';
+import classes from './card-list.module.scss';
 
 interface CardListProps {
   cards: ICard[];
@@ -12,7 +13,7 @@ interface CardListProps {
 
 export function CardList({ cards, isLoading, errorMessage }: CardListProps): JSX.Element {
   if (errorMessage) {
-    return <h2 className={classes.message}>{errorMessage}</h2>;
+    return <Alert variant="error">{errorMessage}</Alert>;
   }
 
   if (isLoading) {
@@ -26,9 +27,7 @@ export function CardList({ cards, isLoading, errorMessage }: CardListProps): JSX
       ))}
     </section>
   ) : (
-    <div className={classes.message}>
-      <h2>No cards found</h2>
-    </div>
+    <Alert variant="info">No cards found</Alert>
   );
 }
 
