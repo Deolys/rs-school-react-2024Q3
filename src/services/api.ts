@@ -1,24 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CardData, CardsData } from './interfaces';
+import { CardData, CardsData, SearchParams } from './interfaces';
 import { SERVER_URL } from './variables';
 
-export const api = {
-  searchCards: async (query: string, page: number = 1): Promise<CardsData | null> => {
-    const params = new URLSearchParams({
-      page: page.toString(),
-      sfw: 'true',
-    });
-    if (query) {
-      params.append('q', query);
-    }
-    const response = await fetch(`${SERVER_URL}?${params.toString()}`);
-    const data = await response.json();
-    return removeDuplicates(data);
-  },
-};
-
 //important: removes duplicates from the data due to a backend bug
-const removeDuplicates = (fullData: CardsData): CardsData | null => {
+const removeDuplicates = (fullData: CardsData): CardsData => {
   const { pagination, data } = fullData;
   const uniqueData = data.filter((card, index, self) => {
     return self.findIndex((c) => c.mal_id === card.mal_id) === index;
@@ -33,7 +18,20 @@ export const animeApi = createApi({
     getCardById: builder.query<CardData, number>({
       query: (id) => `/${id}`,
     }),
+    searchCards: builder.query<CardsData, SearchParams>({
+      query: ({ queryParam, page = 1 }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          sfw: 'true',
+        });
+        if (queryParam) {
+          params.append('q', queryParam);
+        }
+        return `?${params.toString()}`;
+      },
+      transformResponse: (response: CardsData) => removeDuplicates(response),
+    }),
   }),
 });
 
-export const { useGetCardByIdQuery } = animeApi;
+export const { useGetCardByIdQuery, useSearchCardsQuery } = animeApi;

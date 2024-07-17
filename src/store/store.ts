@@ -1,11 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { animeApi } from '@services/api';
+import { cardsReducer } from './slices/cards';
+
+const rootReducer = combineReducers({
+  [animeApi.reducerPath]: animeApi.reducer,
+  cards: cardsReducer,
+});
 
 export const store = configureStore({
-  reducer: {
-    [animeApi.reducerPath]: animeApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(animeApi.middleware),
 });
 

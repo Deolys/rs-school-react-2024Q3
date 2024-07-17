@@ -1,19 +1,15 @@
 import { useMemo, type JSX } from 'react';
-import { PaginationData } from '@services/interfaces';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
+import { useAppSelector } from '../../store/hooks';
 
 interface PaginationProps {
-  paginationData: PaginationData | null;
   currentPage: number;
   onPageChange: (page: number) => void;
 }
 
-export function Pagination({
-  paginationData,
-  currentPage,
-  onPageChange,
-}: PaginationProps): JSX.Element {
+export function Pagination({ currentPage, onPageChange }: PaginationProps): JSX.Element {
+  const { data: paginationData, status } = useAppSelector((state) => state.cards.pagination);
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = useMemo(() => {
     return getStartEndNums(totalPageCount, currentPage);
@@ -30,50 +26,55 @@ export function Pagination({
   }
 
   const pageNums = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
+  const showPagination = paginationData?.items?.count !== 0 && status === 'success';
 
   return (
-    <nav className={classes.pagination}>
-      {currentPage > 1 && (
-        <button className={classes.sideButton} onClick={() => onPageChange(currentPage - 1)}>
-          Previous
-        </button>
+    <>
+      {showPagination && (
+        <nav className={classes.pagination}>
+          {currentPage > 1 && (
+            <button className={classes.sideButton} onClick={() => onPageChange(currentPage - 1)}>
+              Previous
+            </button>
+          )}
+          {showStartNumber && (
+            <button
+              className={classes.paginationButton}
+              disabled={currentPage === 1}
+              onClick={() => onPageChange(1)}
+            >
+              1
+            </button>
+          )}
+          {showStartDots && <span>...</span>}
+          {pageNums.map((number) => (
+            <button
+              className={classes.paginationButton}
+              key={number}
+              disabled={number === currentPage}
+              onClick={() => onPageChange(number)}
+            >
+              {number}
+            </button>
+          ))}
+          {showEndDots && <span>...</span>}
+          {showEndNumber && (
+            <button
+              className={classes.paginationButton}
+              disabled={totalPageCount === currentPage}
+              onClick={() => onPageChange(totalPageCount)}
+            >
+              {totalPageCount}
+            </button>
+          )}
+          {paginationData?.has_next_page && (
+            <button className={classes.sideButton} onClick={() => onPageChange(currentPage + 1)}>
+              Next
+            </button>
+          )}
+        </nav>
       )}
-      {showStartNumber && (
-        <button
-          className={classes.paginationButton}
-          disabled={currentPage === 1}
-          onClick={() => onPageChange(1)}
-        >
-          1
-        </button>
-      )}
-      {showStartDots && <span>...</span>}
-      {pageNums.map((number) => (
-        <button
-          className={classes.paginationButton}
-          key={number}
-          disabled={number === currentPage}
-          onClick={() => onPageChange(number)}
-        >
-          {number}
-        </button>
-      ))}
-      {showEndDots && <span>...</span>}
-      {showEndNumber && (
-        <button
-          className={classes.paginationButton}
-          disabled={totalPageCount === currentPage}
-          onClick={() => onPageChange(totalPageCount)}
-        >
-          {totalPageCount}
-        </button>
-      )}
-      {paginationData?.has_next_page && (
-        <button className={classes.sideButton} onClick={() => onPageChange(currentPage + 1)}>
-          Next
-        </button>
-      )}
-    </nav>
+    </>
   );
 }
 

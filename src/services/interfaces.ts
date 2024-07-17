@@ -34,3 +34,8 @@ export interface CardsData {
 export interface CardData {
   data: ICard;
 }
+
+export interface SearchParams {
+  queryParam: string;
+  page: number;
+}

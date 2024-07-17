@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 function getValueFromLS(key: string, initialValue: string = ''): string {
   try {
@@ -16,14 +16,13 @@ export default function useSearchQuery(
 ): [string, (query: string) => void] {
   const [searchQuery, setSearchQuery] = useState(getValueFromLS(key, initialValue));
 
-  const setValue = (value: string): void => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
+  const setValue = useCallback(
+    (value: string) => {
+      localStorage.setItem(key, JSON.stringify(value));
       setSearchQuery(value);
-    } catch (error) {
-      console.error('Error saving value to localStorage', error);
-    }
-  };
+    },
+    [key],
+  );
 
   return [searchQuery, setValue];
 }
