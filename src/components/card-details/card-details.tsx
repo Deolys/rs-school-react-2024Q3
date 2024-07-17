@@ -1,18 +1,18 @@
 import type { JSX } from 'react';
 import { Loading } from '@components/loading';
-import { ICard } from '@services/interfaces';
 import { Alert } from '@components/alert';
+import { useGetCardByIdQuery } from '@services/api';
 import classes from './card-details.module.scss';
+import { useSearchParams } from 'react-router-dom';
 
-interface CardDetailsProps {
-  card: ICard | null;
-  isLoading: boolean;
-  errorMessage: string;
-}
+export function CardDetails(): JSX.Element {
+  const [searchParams] = useSearchParams();
+  const details = Number(searchParams.get('details'));
+  const { data, error, isLoading } = useGetCardByIdQuery(details);
+  const card = data?.data;
 
-export function CardDetails({ card, isLoading, errorMessage }: CardDetailsProps): JSX.Element {
-  if (errorMessage) {
-    return <Alert variant="error">{errorMessage}</Alert>;
+  if (error) {
+    return <Alert variant="error">Getting the details failed. Please, try again later</Alert>;
   }
 
   if (isLoading) {
