@@ -1,3 +1,4 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CardData, CardsData } from './interfaces';
 import { SERVER_URL } from './variables';
 
@@ -30,3 +31,15 @@ const removeDuplicates = (fullData: CardsData): CardsData | null => {
   });
   return { pagination, data: uniqueData };
 };
+
+export const animeApi = createApi({
+  reducerPath: 'animeApi',
+  baseQuery: fetchBaseQuery({ baseUrl: SERVER_URL }),
+  endpoints: (builder) => ({
+    getCardById: builder.query<CardData, number>({
+      query: (id) => `/${id}`,
+    }),
+  }),
+});
+
+export const { useGetCardByIdQuery } = animeApi;
