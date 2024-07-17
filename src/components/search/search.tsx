@@ -17,10 +17,10 @@ export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
     const searchValue = searchTerm.trim();
 
     const newSearchParams: { page: string; q?: string } = { page: '1' };
-    if (searchTerm) {
-      newSearchParams.q = searchTerm;
+    if (searchValue) {
+      newSearchParams.q = searchValue;
     }
-    if (searchTerm !== initialValue) {
+    if (searchValue !== initialValue) {
       setSearchParams(newSearchParams);
     }
     onSearch(searchValue);
