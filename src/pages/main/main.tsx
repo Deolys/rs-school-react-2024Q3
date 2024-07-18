@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { CardList } from '@components/card-list';
 import { Header } from '@components/header';
@@ -12,13 +12,10 @@ import { ThemeButton } from '@components/theme-button';
 export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [storedValue, setStoredValue] = useSearchQuery('search-term', '');
-
-  const [searchTerm, setSearchTerm] = useState(storedValue);
   const currentPage = searchParams.get('page') || '1';
 
   const handleSearch = useCallback(
     (search: string): void => {
-      setSearchTerm(search);
       setStoredValue(search);
     },
     [setStoredValue],
@@ -40,13 +37,13 @@ export function Main(): JSX.Element {
     <>
       <Header>
         <>
-          <Search initialValue={searchTerm} onSearch={handleSearch} />
+          <Search initialValue={storedValue} onSearch={handleSearch} />
           <ThemeButton />
         </>
       </Header>
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
-          <CardList queryParam={searchTerm} />
+          <CardList queryParam={storedValue} />
           <Pagination currentPage={+currentPage} onPageChange={onPageChange} />
         </main>
         <Outlet />
