@@ -38,6 +38,9 @@ const cardsSlice = createSlice({
         state.selectedCards.push(action.payload);
       }
     },
+    unselectAll: (state) => {
+      state.selectedCards = [];
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(animeApi.endpoints.searchCards.matchPending, (state) => {

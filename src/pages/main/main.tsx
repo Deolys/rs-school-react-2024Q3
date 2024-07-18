@@ -8,6 +8,7 @@ import { Pagination } from '@components/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import useSearchQuery from '../../hooks/use-search-query';
 import { ThemeButton } from '@components/theme-button';
+import { Flyout } from '@components/flyout';
 
 export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,6 +46,7 @@ export function Main(): JSX.Element {
         <main className={classes.wrapper} onClick={handleAsideClose}>
           <CardList queryParam={storedValue} />
           <Pagination currentPage={+currentPage} onPageChange={onPageChange} />
+          <Flyout />
         </main>
         <Outlet />
       </div>

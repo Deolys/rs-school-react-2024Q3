@@ -33,9 +33,10 @@ export function Card({ card }: CardProps): JSX.Element {
         <input
           className={classes.checkbox}
           type="checkbox"
-          defaultChecked={isSelected}
+          checked={isSelected}
           onClick={toggleCheckbox}
           title="Select card"
+          readOnly
         />
         <img src={card.images.jpg.image_url} alt={card.title} />
         <div className={classes.card__info}>
