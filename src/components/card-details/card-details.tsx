@@ -8,14 +8,14 @@ import { useSearchParams } from 'react-router-dom';
 export function CardDetails(): JSX.Element {
   const [searchParams] = useSearchParams();
   const details = Number(searchParams.get('details'));
-  const { data, error, isLoading } = useGetCardByIdQuery(details);
+  const { data, error, isFetching } = useGetCardByIdQuery(details);
   const card = data?.data;
 
   if (error) {
     return <Alert variant="error">Getting the details failed. Please, try again later</Alert>;
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loading />;
   }
 

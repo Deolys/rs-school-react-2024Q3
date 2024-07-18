@@ -31,7 +31,7 @@ export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
   };
 
   useEffect(() => {
-    const query = searchParams.get('q') ?? '';
+    const query = searchParams.get('q');
 
     if (query && initialValue !== query) {
       onSearch(query);
