@@ -2,7 +2,7 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 20px 2px 20px 20px;
   background-color: var(--card-color);
   -webkit-box-shadow: 0px 4px 18px 5px rgba(59, 84, 108, 0.1);
   -moz-box-shadow: 0px 4px 18px 5px rgba(59, 84, 108, 0.1);
@@ -35,4 +35,12 @@
 
 .cardTitle {
   color: var(--text-color);
+}
+
+.checkbox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
 }

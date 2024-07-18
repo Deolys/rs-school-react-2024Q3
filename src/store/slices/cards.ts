@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { animeApi } from '@services/api';
 import { ICard, PaginationData } from '@services/interfaces';
 
@@ -11,6 +11,7 @@ interface InitialState {
     data: PaginationData | null;
     status: string;
   };
+  selectedCards: ICard[];
 }
 
 const initialState: InitialState = {
@@ -22,12 +23,22 @@ const initialState: InitialState = {
     data: null,
     status: 'loading',
   },
+  selectedCards: [],
 };
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleSelected: (state, action: PayloadAction<ICard>) => {
+      const index = state.selectedCards.findIndex((card) => card.mal_id === action.payload.mal_id);
+      if (index !== -1) {
+        state.selectedCards.splice(index, 1);
+      } else {
+        state.selectedCards.push(action.payload);
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(animeApi.endpoints.searchCards.matchPending, (state) => {
       state.cards.items = [];
@@ -50,4 +61,4 @@ const cardsSlice = createSlice({
   },
 });
 
-export const cardsReducer = cardsSlice.reducer;
+export const { reducer: cardsReducer, actions: cardsActions } = cardsSlice;
