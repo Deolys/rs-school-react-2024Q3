@@ -19,7 +19,7 @@ export function Pagination(): JSX.Element {
 
   useEffect(() => {
     if (pageParam && currentPage !== +pageParam) {
-      setCurrentPage(pageParam);
+      setCurrentPage(+pageParam);
     }
   }, [searchParams, currentPage, pageParam, setCurrentPage]);
 
@@ -53,7 +53,7 @@ export function Pagination(): JSX.Element {
           {showStartNumber && (
             <button
               className={classes.paginationButton}
-              disabled={currentPage == 1}
+              disabled={currentPage === 1}
               onClick={() => onPageChange(1)}
             >
               1
@@ -64,7 +64,7 @@ export function Pagination(): JSX.Element {
             <button
               className={classes.paginationButton}
               key={number}
-              disabled={number == currentPage}
+              disabled={number === currentPage}
               onClick={() => onPageChange(number)}
             >
               {number}
@@ -74,7 +74,7 @@ export function Pagination(): JSX.Element {
           {showEndNumber && (
             <button
               className={classes.paginationButton}
-              disabled={totalPageCount == currentPage}
+              disabled={totalPageCount === currentPage}
               onClick={() => onPageChange(totalPageCount)}
             >
               {totalPageCount}
