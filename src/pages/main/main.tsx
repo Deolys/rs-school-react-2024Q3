@@ -13,7 +13,6 @@ import { Flyout } from '@components/flyout';
 export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [storedValue, setStoredValue] = useSearchQuery('search-term', '');
-  const currentPage = searchParams.get('page') || '1';
 
   const handleSearch = useCallback(
     (search: string): void => {
@@ -21,11 +20,6 @@ export function Main(): JSX.Element {
     },
     [setStoredValue],
   );
-
-  const onPageChange = (page: number): void => {
-    searchParams.set('page', page.toString());
-    setSearchParams(searchParams);
-  };
 
   const handleAsideClose = (): void => {
     if (searchParams.has('details')) {
@@ -45,7 +39,7 @@ export function Main(): JSX.Element {
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
           <CardList queryParam={storedValue} />
-          <Pagination currentPage={+currentPage} onPageChange={onPageChange} />
+          <Pagination />
           <Flyout />
         </main>
         <Outlet />

@@ -14,7 +14,7 @@ export function Card({ card }: CardProps): JSX.Element {
   const searchParams = new URLSearchParams(location.search);
   searchParams.set('details', `${card.mal_id}`);
 
-  const selectedCards = useAppSelector((state) => state.cards.selectedCards);
+  const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
   const { toggleSelected } = useActions();
 

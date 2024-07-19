@@ -1,15 +1,28 @@
-import { useMemo, type JSX } from 'react';
+import { useMemo, type JSX, useEffect } from 'react';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
 import { useAppSelector } from '../../store/hooks';
+import useActions from '../../hooks/use-actions';
+import { useSearchParams } from 'react-router-dom';
 
-interface PaginationProps {
-  currentPage: number;
-  onPageChange: (page: number) => void;
-}
-
-export function Pagination({ currentPage, onPageChange }: PaginationProps): JSX.Element {
+export function Pagination(): JSX.Element {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
   const { data: paginationData, status } = useAppSelector((state) => state.cards.pagination);
+  const currentPage = useAppSelector((state) => state.cards.currentPage);
+  const { setCurrentPage } = useActions();
+  const onPageChange = (page: number): void => {
+    searchParams.set('page', `${page}`);
+    setSearchParams(searchParams);
+    setCurrentPage(page);
+  };
+
+  useEffect(() => {
+    if (pageParam && currentPage !== +pageParam) {
+      setCurrentPage(pageParam);
+    }
+  }, [searchParams, currentPage, pageParam, setCurrentPage]);
+
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = useMemo(() => {
     return getStartEndNums(totalPageCount, currentPage);
@@ -40,7 +53,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps): JSX.
           {showStartNumber && (
             <button
               className={classes.paginationButton}
-              disabled={currentPage === 1}
+              disabled={currentPage == 1}
               onClick={() => onPageChange(1)}
             >
               1
@@ -51,7 +64,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps): JSX.
             <button
               className={classes.paginationButton}
               key={number}
-              disabled={number === currentPage}
+              disabled={number == currentPage}
               onClick={() => onPageChange(number)}
             >
               {number}
@@ -61,7 +74,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps): JSX.
           {showEndNumber && (
             <button
               className={classes.paginationButton}
-              disabled={totalPageCount === currentPage}
+              disabled={totalPageCount == currentPage}
               onClick={() => onPageChange(totalPageCount)}
             >
               {totalPageCount}

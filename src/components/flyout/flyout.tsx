@@ -7,7 +7,7 @@ import convertJSONToCSV from './convert-json-to-csv';
 const fileHeaders = ['title', 'year', 'rank', 'duration', 'synopsis'];
 
 export function Flyout(): JSX.Element {
-  const selectedCards = useAppSelector((state) => state.cards.selectedCards);
+  const selectedCards = useAppSelector((state) => state.selectedCards);
   const selectedCount = selectedCards.length;
   const { unselectAll } = useActions();
   const [blob, setBlob] = useState(new Blob());

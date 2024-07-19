@@ -7,17 +7,12 @@ import renderWithProviders from '../test/utils/redux-provider';
 import { mockPagination } from '../test/__mocks__/mock-data';
 
 const PaginationWrapper = (): JSX.Element => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const onPageChange = (page: number): void => {
-    searchParams.set('page', page.toString());
-    setSearchParams(searchParams);
-  };
+  const [searchParams] = useSearchParams();
 
   return (
     <>
       <div data-testid="search-params">{searchParams.toString()}</div>
-      <Pagination currentPage={1} onPageChange={onPageChange} />
+      <Pagination />
     </>
   );
 };
@@ -39,7 +34,7 @@ describe('Pagination', () => {
               data: mockPagination,
               status: 'success',
             },
-            selectedCards: [],
+            currentPage: 1,
           },
         },
       },

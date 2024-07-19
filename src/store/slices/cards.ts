@@ -11,7 +11,7 @@ interface InitialState {
     data: PaginationData | null;
     status: string;
   };
-  selectedCards: ICard[];
+  currentPage: number;
 }
 
 const initialState: InitialState = {
@@ -23,23 +23,15 @@ const initialState: InitialState = {
     data: null,
     status: 'loading',
   },
-  selectedCards: [],
+  currentPage: 1,
 };
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    toggleSelected: (state, action: PayloadAction<ICard>) => {
-      const index = state.selectedCards.findIndex((card) => card.mal_id === action.payload.mal_id);
-      if (index !== -1) {
-        state.selectedCards.splice(index, 1);
-      } else {
-        state.selectedCards.push(action.payload);
-      }
-    },
-    unselectAll: (state) => {
-      state.selectedCards = [];
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
