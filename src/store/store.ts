@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { Store, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { animeApi } from '@services/api';
 import { cardsReducer } from './slices/cards';
 
@@ -7,10 +7,14 @@ const rootReducer = combineReducers({
   cards: cardsReducer,
 });
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(animeApi.middleware),
-});
+export const setupStore = (preloadedState?: Partial<RootState>): Store<RootState> =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(animeApi.middleware),
+  });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const store = setupStore();
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

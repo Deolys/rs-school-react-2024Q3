@@ -1,24 +1,29 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Search } from '@components/search';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Search Component', () => {
-  const searchCards = jest.fn();
+  const handleSearch = jest.fn((value: string) => {
+    localStorage.setItem('search-term', JSON.stringify(value));
+  });
   const setItemMock = jest.spyOn(Storage.prototype, 'setItem');
-  const getItemMock = jest.spyOn(Storage.prototype, 'getItem');
 
   beforeEach(() => {
     setItemMock.mockClear();
-    getItemMock.mockClear();
-    searchCards.mockClear();
+    handleSearch.mockClear();
   });
 
   afterEach(() => {
     localStorage.clear();
   });
 
-  it('сохраняет введенное значение в localStorage при клике на кнопку поиска', () => {
-    render(<Search searchCards={searchCards} queryParam="" />);
+  it('saves the entered value in localStorage when clicking on the search button', () => {
+    render(
+      <MemoryRouter>
+        <Search onSearch={handleSearch} initialValue="" />
+      </MemoryRouter>,
+    );
     const searchInput = screen.getByPlaceholderText(/search for anime.../i);
     const searchButton = screen.getByRole('button', { name: /search/i });
 
@@ -28,12 +33,14 @@ describe('Search Component', () => {
     expect(setItemMock).toHaveBeenCalledWith('search-term', '"Naruto"');
   });
 
-  it('извлекает значение из localStorage при монтировании компонента', async () => {
-    localStorage.setItem('search-term', JSON.stringify('One Piece'));
-    render(<Search searchCards={searchCards} queryParam="" />);
+  it('mounts with initial value', async () => {
+    render(
+      <MemoryRouter>
+        <Search onSearch={handleSearch} initialValue="One Piece" />
+      </MemoryRouter>,
+    );
 
     const searchInput = screen.getByPlaceholderText(/search for anime.../i);
-    expect(getItemMock).toHaveBeenCalledWith('search-term');
     expect(searchInput).toHaveValue('One Piece');
   });
 });

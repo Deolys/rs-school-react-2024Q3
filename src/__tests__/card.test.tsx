@@ -1,21 +1,22 @@
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Card } from '@components/card';
-import { mockCardData, mockCard } from '../test/__mocks__/mock-data';
+import { mockCardsPagesData, mockCard } from '../test/__mocks__/mock-data';
 import { PageRoutes } from '../routes';
 import fetchMock from 'jest-fetch-mock';
 import { SERVER_URL } from '@services/variables';
+import renderWithProviders from '../test/utils/redux-provider';
 
 describe('Card Component', () => {
   fetchMock.enableMocks();
 
-  beforeEach(() => {
+  afterEach(() => {
     fetchMock.resetMocks();
   });
 
   it('renders the relevant card data', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Card card={mockCard} />
       </MemoryRouter>,
@@ -28,8 +29,8 @@ describe('Card Component', () => {
   });
 
   it('opens a detailed card component on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardData));
-    const { container } = render(
+    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
+    const { container } = renderWithProviders(
       <MemoryRouter>
         <PageRoutes />
       </MemoryRouter>,
@@ -44,18 +45,19 @@ describe('Card Component', () => {
   });
 
   it('triggers an additional API call to fetch detailed information on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardData));
-    render(
+    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
+    renderWithProviders(
       <MemoryRouter>
         <PageRoutes />
       </MemoryRouter>,
     );
     const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
     fireEvent.click(link);
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardData));
     await waitFor(
       () => {
-        expect(fetchMock).toHaveBeenCalledWith(`${SERVER_URL}/${mockCard.mal_id}`);
+        expect(fetchMock).toHaveBeenLastCalledWith(
+          expect.objectContaining({ url: `${SERVER_URL}/${mockCard.mal_id}` }),
+        );
       },
       { timeout: 4000 },
     );

@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CardData, CardsData, SearchParams } from './interfaces';
+import { CardData, CardsPagesData, SearchParams } from './interfaces';
 import { SERVER_URL } from './variables';
 
 //important: removes duplicates from the data due to a backend bug
-const removeDuplicates = (fullData: CardsData): CardsData => {
+const removeDuplicates = (fullData: CardsPagesData): CardsPagesData => {
   const { pagination, data } = fullData;
   const uniqueData = data.filter((card, index, self) => {
     return self.findIndex((c) => c.mal_id === card.mal_id) === index;
@@ -18,7 +18,7 @@ export const animeApi = createApi({
     getCardById: builder.query<CardData, number>({
       query: (id) => `/${id}`,
     }),
-    searchCards: builder.query<CardsData, SearchParams>({
+    searchCards: builder.query<CardsPagesData, SearchParams>({
       query: ({ queryParam, page = 1 }) => {
         const params = new URLSearchParams({
           page: page.toString(),
@@ -29,7 +29,7 @@ export const animeApi = createApi({
         }
         return `?${params.toString()}`;
       },
-      transformResponse: (response: CardsData) => removeDuplicates(response),
+      transformResponse: (response: CardsPagesData) => removeDuplicates(response),
     }),
   }),
 });

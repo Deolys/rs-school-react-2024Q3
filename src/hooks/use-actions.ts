@@ -1,7 +1,7 @@
 import { ActionCreatorsMapObject, bindActionCreators } from '@reduxjs/toolkit';
 import { useMemo } from 'react';
 import { useAppDispatch } from '../store/hooks';
-import { cardsActions } from 'store/slices/cards';
+import { cardsActions } from '../store/slices/cards';
 
 const rootActions = {
   ...cardsActions,

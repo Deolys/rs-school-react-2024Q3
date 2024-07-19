@@ -2,7 +2,7 @@ import type { JSX, MouseEvent } from 'react';
 import { ICard } from '@services/interfaces';
 import classes from './card.module.scss';
 import { Link, useLocation } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import useActions from '../../hooks/use-actions';
 
 interface CardProps {
