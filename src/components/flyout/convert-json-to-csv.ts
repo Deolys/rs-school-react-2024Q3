@@ -13,7 +13,7 @@ export function convertJSONToCSV(
     .map((row) => {
       return columnNames
         .map((field) => {
-          const newField = row[field] || '';
+          const newField = row[field] || '-';
           return JSON.stringify(newField).replace(/\n/g, '');
         })
         .join(';');
