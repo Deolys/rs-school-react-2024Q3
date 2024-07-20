@@ -33,6 +33,10 @@ const cardsSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
+    setPagination: (state, action: PayloadAction<PaginationData>) => {
+      state.pagination.data = action.payload;
+      state.pagination.status = 'success';
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(animeApi.endpoints.searchCards.matchPending, (state) => {

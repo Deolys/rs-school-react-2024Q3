@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import { useEffect, type JSX } from 'react';
 import { Card } from '@components/card';
 import { Loading } from '@components/loading';
 import { Alert } from '@components/alert';
@@ -6,6 +6,7 @@ import classes from './card-list.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import { useSearchCardsQuery } from '@services/api';
 import { useAppSelector } from '../../store/hooks';
+import useActions from '../../hooks/use-actions';
 
 interface CardListProps {
   queryParam: string;
@@ -21,6 +22,12 @@ export function CardList({ queryParam }: CardListProps): JSX.Element {
     page: +currentPage,
   });
   const cards = data?.data;
+  const pagination = data?.pagination;
+  const { setPagination } = useActions();
+  useEffect(() => {
+    setPagination(pagination);
+  }, [setPagination, pagination]);
+
   const status = useAppSelector((state) => state.cards.cards.status);
 
   if (error) {
