@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Search } from '@components/search';
+import { Search } from '@/components/search';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Search Component', () => {

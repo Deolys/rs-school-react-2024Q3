@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import type { JSX } from 'react';
-import { CardList } from '@components/card-list';
-import { Header } from '@components/header';
-import { Search } from '@components/search';
+import { CardList } from '@/components/card-list';
+import { Header } from '@/components/header';
+import { Search } from '@/components/search';
 import classes from './main.module.scss';
-import { Pagination } from '@components/pagination';
+import { Pagination } from '@/components/pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import useSearchQuery from '../../hooks/use-search-query';
-import { ThemeButton } from '@components/theme-button';
-import { Flyout } from '@components/flyout';
+import useSearchQuery from '@/hooks/use-search-query';
+import { ThemeButton } from '@/components/theme-button';
+import { Flyout } from '@/components/flyout';
 
 export function Main(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();

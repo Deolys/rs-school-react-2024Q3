@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import type { JSX } from 'react';
-import { ThemeContext } from '../../contexts/theme-context';
-import SunImg from '@assets/icons/sun.svg';
-import MoonImg from '@assets/icons/moon.svg';
+import { ThemeContext } from '@/contexts/theme-context';
+import SunImg from '@/assets/icons/sun.svg';
+import MoonImg from '@/assets/icons/moon.svg';
 import classes from './theme-button.module.scss';
 
 export function ThemeButton(): JSX.Element {

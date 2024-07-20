@@ -1,4 +1,4 @@
-import { CardKeyTypes } from '@services/interfaces';
+import { CardKeyTypes } from '@/services/interfaces';
 
 export function convertJSONToCSV(
   jsonData: { [key: string]: CardKeyTypes }[],

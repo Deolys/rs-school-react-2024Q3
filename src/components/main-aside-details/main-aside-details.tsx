@@ -1,8 +1,8 @@
 import type { JSX } from 'react';
-import { CardDetails } from '@components/card-details/card-details';
+import { CardDetails } from '@/components/card-details';
 import { useSearchParams } from 'react-router-dom';
 import classes from './main-aside-details.module.scss';
-import crossImg from '@assets/icons/cross.svg';
+import crossImg from '@/assets/icons/cross.svg';
 
 export function MainAsideDetails(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();

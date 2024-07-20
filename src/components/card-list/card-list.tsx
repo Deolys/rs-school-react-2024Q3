@@ -1,12 +1,12 @@
 import { useEffect, type JSX } from 'react';
-import { Card } from '@components/card';
-import { Loading } from '@components/loading';
-import { Alert } from '@components/alert';
+import { Card } from '@/components/card';
+import { Loading } from '@/components/loading';
+import { Alert } from '@/components/alert';
 import classes from './card-list.module.scss';
 import { useSearchParams } from 'react-router-dom';
-import { useSearchCardsQuery } from '@services/api';
-import { useAppSelector } from '../../store/hooks';
-import useActions from '../../hooks/use-actions';
+import { useSearchCardsQuery } from '@/services/api';
+import { useAppSelector } from '@/store/hooks';
+import useActions from '@/hooks/use-actions';
 
 interface CardListProps {
   queryParam: string;

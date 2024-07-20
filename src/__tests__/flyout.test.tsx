@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { Flyout } from '@components/flyout';
+import { Flyout } from '@/components/flyout';
+import convertJSONToCSV from '@/components/flyout/convert-json-to-csv';
 import renderWithProviders from '../test/utils/redux-provider';
-import convertJSONToCSV from '@components/flyout/convert-json-to-csv';
 import { mockCards, mockColumnNames, mockJsonData } from '../test/__mocks__/mock-data';
 
 describe('Flyout', () => {

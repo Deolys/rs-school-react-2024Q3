@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ICard } from '@services/interfaces';
+import { ICard } from '@/services/interfaces';
 
 const initialState: ICard[] = [];
 

@@ -20,11 +20,9 @@
     "esModuleInterop": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@services/*": ["services/*"]
+      "@/*": ["./src/*"]
     },
 
     "strict": true,

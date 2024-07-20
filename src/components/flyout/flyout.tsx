@@ -1,7 +1,7 @@
 import { type JSX, useState } from 'react';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import classes from './flyout.module.scss';
-import useActions from '../../hooks/use-actions';
+import useActions from '@/hooks/use-actions';
 import convertJSONToCSV from './convert-json-to-csv';
 
 const fileHeaders = ['title', 'year', 'rank', 'duration', 'synopsis'];

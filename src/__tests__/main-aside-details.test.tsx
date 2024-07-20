@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { MainAsideDetails } from '@components/main-aside-details';
+import { MainAsideDetails } from '@/components/main-aside-details';
 import { MemoryRouter } from 'react-router-dom';
 import renderWithProviders from '../test/utils/redux-provider';
 

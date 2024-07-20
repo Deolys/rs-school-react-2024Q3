@@ -1,8 +1,8 @@
 import { useMemo, type JSX, useEffect } from 'react';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
-import { useAppSelector } from '../../store/hooks';
-import useActions from '../../hooks/use-actions';
+import { useAppSelector } from '@/store/hooks';
+import useActions from '@/hooks/use-actions';
 import { useSearchParams } from 'react-router-dom';
 
 export function Pagination(): JSX.Element {

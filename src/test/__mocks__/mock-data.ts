@@ -1,4 +1,4 @@
-import { CardAndPagesData, CardsPagesData, ICard, PaginationData } from '@services/interfaces';
+import { CardAndPagesData, CardsPagesData, ICard, PaginationData } from '@/services/interfaces';
 
 export const mockCards: ICard[] = [
   {

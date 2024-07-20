@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { ThemeButton } from '@components/theme-button';
+import { ThemeButton } from '@/components/theme-button';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { ThemeContext, ThemeProvider } from '../contexts/theme-context';
+import { ThemeContext, ThemeProvider } from '@/contexts/theme-context';
 
 describe('ThemeButton', () => {
   window.matchMedia = jest.fn().mockImplementation(() => 'light');

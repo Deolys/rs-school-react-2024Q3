@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
-import { Loading } from '@components/loading';
-import { Alert } from '@components/alert';
-import { useGetCardByIdQuery } from '@services/api';
+import { Loading } from '@/components/loading';
+import { Alert } from '@/components/alert';
+import { useGetCardByIdQuery } from '@/services/api';
 import classes from './card-details.module.scss';
 import { useSearchParams } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import { Store, combineReducers, configureStore } from '@reduxjs/toolkit';
-import { animeApi } from '@services/api';
+import { animeApi } from '@/services/api';
 import { cardsReducer } from './slices/cards';
 import { selectedCardsReducer } from './slices/selected-cards';
 

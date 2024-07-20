@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { animeApi } from '@services/api';
-import { ICard, PaginationData } from '@services/interfaces';
+import { animeApi } from '@/services/api';
+import { ICard, PaginationData } from '@/services/interfaces';
 
 interface InitialState {
   cards: {

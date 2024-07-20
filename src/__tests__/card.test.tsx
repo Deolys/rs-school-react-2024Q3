@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { Card } from '@components/card';
+import { Card } from '@/components/card';
 import { mockCardsPagesData, mockCard } from '../test/__mocks__/mock-data';
 import { PageRoutes } from '../routes';
 import fetchMock from 'jest-fetch-mock';
-import { SERVER_URL } from '@services/variables';
+import { SERVER_URL } from '@/services/variables';
 import renderWithProviders from '../test/utils/redux-provider';
 
 describe('Card Component', () => {
