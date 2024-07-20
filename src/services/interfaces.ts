@@ -1,4 +1,12 @@
+export type CardKeyTypes =
+  | string
+  | number
+  | null
+  | { [key: string]: { [key: string]: string } }
+  | { [key: string]: string }[];
+
 export interface ICard {
+  [key: string]: CardKeyTypes;
   mal_id: number;
   title: string;
   score: number;
@@ -26,11 +34,21 @@ export interface PaginationData {
   };
 }
 
-export interface CardsData {
+export interface CardsPagesData {
   data: ICard[];
   pagination: PaginationData;
 }
 
 export interface CardData {
   data: ICard;
+}
+
+export interface CardAndPagesData {
+  data: ICard;
+  pagination: PaginationData;
+}
+
+export interface SearchParams {
+  queryParam: string;
+  page: number;
 }

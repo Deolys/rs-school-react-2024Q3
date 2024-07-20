@@ -1,6 +1,6 @@
 .asideWrapper {
   width: 50%;
-  background-color: #f7f9ff;
+  background-color: var(--card-color);
   height: calc(100vh - 70px);
   position: sticky;
   top: 72px;

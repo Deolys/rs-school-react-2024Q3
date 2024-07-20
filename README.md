@@ -1,6 +1,6 @@
-# React Routing. Tests
+# Redux. Redux Toolkit, RTK Query. Context api.
 
-[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/routing.md)
+[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/redux.md)
 
 ### Install dependencies
 
