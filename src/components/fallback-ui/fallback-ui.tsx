@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import classes from './fallback-ui.module.scss';
 import CatFailImg from '@/assets/images/cat-fail.jpg';
+import Image from 'next/image';
 
 export function FallbackUI(): JSX.Element {
   const handleReloadPage = (): void => {
@@ -9,7 +10,7 @@ export function FallbackUI(): JSX.Element {
 
   return (
     <div className={classes.fallbackWrapper}>
-      <img src={CatFailImg} alt="The image of a cat's failure" />
+      <Image src={CatFailImg} alt="The image of a cat's failure" />
       <h3>Something went wrong...</h3>
       <button className={classes.retryButton} onClick={handleReloadPage} type="button">
         Retry

@@ -1,18 +1,17 @@
 import type { JSX, MouseEvent } from 'react';
 import { ICard } from '@/services/interfaces';
 import classes from './card.module.scss';
-import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface CardProps {
   card: ICard;
 }
 
 export function Card({ card }: CardProps): JSX.Element {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  searchParams.set('details', `${card.mal_id}`);
+  const router = useRouter();
 
   const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
@@ -28,7 +27,11 @@ export function Card({ card }: CardProps): JSX.Element {
   };
 
   return (
-    <Link to={`${location.pathname}?${searchParams}`} onClick={handleClick}>
+    <Link
+      href={{ query: { ...router.query, details: card.mal_id } }}
+      onClick={handleClick}
+      scroll={false}
+    >
       <article className={classes.card}>
         <input
           className={classes.checkbox}

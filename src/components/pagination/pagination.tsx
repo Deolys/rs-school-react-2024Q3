@@ -3,17 +3,16 @@ import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
-import { useSearchParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export function Pagination(): JSX.Element {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('page');
+  const router = useRouter();
+  const { page: pageParam } = router.query;
   const { data: paginationData, status } = useAppSelector((state) => state.cards.pagination);
   const currentPage = useAppSelector((state) => state.cards.currentPage);
   const { setCurrentPage } = useActions();
   const onPageChange = (page: number): void => {
-    searchParams.set('page', `${page}`);
-    setSearchParams(searchParams);
+    router.push({ query: { ...router.query, page: page } });
     setCurrentPage(page);
   };
 
@@ -21,7 +20,7 @@ export function Pagination(): JSX.Element {
     if (pageParam && currentPage !== +pageParam) {
       setCurrentPage(+pageParam);
     }
-  }, [searchParams, currentPage, pageParam, setCurrentPage]);
+  }, [pageParam, currentPage, setCurrentPage]);
 
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = useMemo(() => {

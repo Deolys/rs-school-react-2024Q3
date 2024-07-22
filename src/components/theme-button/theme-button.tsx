@@ -4,6 +4,7 @@ import { ThemeContext } from '@/contexts/theme-context';
 import SunImg from '@/assets/icons/sun.svg';
 import MoonImg from '@/assets/icons/moon.svg';
 import classes from './theme-button.module.scss';
+import Image from 'next/image';
 
 export function ThemeButton(): JSX.Element {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -14,9 +15,9 @@ export function ThemeButton(): JSX.Element {
   return (
     <button type="button" className={classes.themeButton} onClick={handleThemeToggle}>
       {theme === 'light' ? (
-        <img src={MoonImg} alt="Moon" title="Swith to dark theme" />
+        <Image src={MoonImg} alt="Moon" title="Swith to dark theme" />
       ) : (
-        <img src={SunImg} alt="Sun" title="Swith to light theme" />
+        <Image src={SunImg} alt="Sun" title="Swith to light theme" />
       )}
     </button>
   );

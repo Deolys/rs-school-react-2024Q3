@@ -18,6 +18,7 @@ module.exports = {
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
+    "no-sparse-arrays": "off",
     'prettier/prettier': [
       'error',
       {

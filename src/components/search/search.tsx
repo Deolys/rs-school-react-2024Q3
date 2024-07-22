@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import classes from './search.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
@@ -9,7 +9,7 @@ interface SearchProps {
 }
 
 export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState(initialValue);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -21,7 +21,7 @@ export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
       newSearchParams.q = searchValue;
     }
     if (searchValue !== initialValue) {
-      setSearchParams(newSearchParams);
+      router.push({ query: { ...router.query, ...newSearchParams } });
     }
     onSearch(searchValue);
   };
@@ -31,13 +31,15 @@ export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
   };
 
   useEffect(() => {
-    const query = searchParams.get('q');
-
-    if (query && initialValue !== query) {
-      onSearch(query);
-      setSearchTerm(query);
+    let searchParam = router.query.q;
+    if (searchParam && Array.isArray(searchParam)) {
+      searchParam = searchParam.shift();
     }
-  }, [searchParams, onSearch, initialValue]);
+    if (searchParam && initialValue !== searchParam) {
+      onSearch(searchParam);
+      setSearchTerm(searchParam);
+    }
+  }, [, router, onSearch, initialValue]);
 
   return (
     <div className={classes.searchContainer}>

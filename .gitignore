@@ -26,3 +26,6 @@ dist-ssr
 reports
 coverage
 *.lcov
+
+.next
+next-env.d.ts

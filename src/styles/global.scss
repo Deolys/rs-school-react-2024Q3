@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300..900&display=swap');
+
+.app {
+  min-width: 320px;
+  min-height: 100vh;
+
+  &.light {
+    background-color: white;
+    --color-main-bg: white;
+    --text-color: #000000;
+    --card-color: #f7f9ff;
+    --btn-color-blue: #5bd3ff;
+    --color-steel-blue: #b3c3f5;
+    --color-gray-blue: #E0F8FF;
+  }
+
+  &.dark {
+    background-color: #232325;
+    --color-main-bg: #232325;
+    --text-color: #ffffff;
+    --card-color: #343439;
+    --btn-color-blue: #5bd3ff;
+    --color-steel-blue: #62719c;
+    --color-gray-blue: #255361;
+
+  }
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  max-height: 100%;
+}
+
+button {
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}

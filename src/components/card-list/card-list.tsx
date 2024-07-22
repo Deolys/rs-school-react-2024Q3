@@ -3,19 +3,20 @@ import { Card } from '@/components/card';
 import { Loading } from '@/components/loading';
 import { Alert } from '@/components/alert';
 import classes from './card-list.module.scss';
-import { useSearchParams } from 'react-router-dom';
 import { useSearchCardsQuery } from '@/services/api';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
+import { useRouter } from 'next/router';
 
 interface CardListProps {
   queryParam: string;
 }
 
 export function CardList({ queryParam }: CardListProps): JSX.Element {
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
+  const { page } = router.query;
 
-  const currentPage = searchParams.get('page') || '1';
+  const currentPage = page || '1';
 
   const { data, error, isLoading } = useSearchCardsQuery({
     queryParam: queryParam,
