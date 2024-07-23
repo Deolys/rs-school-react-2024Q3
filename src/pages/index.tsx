@@ -5,11 +5,11 @@ import { Header } from '@/components/header';
 import { Search } from '@/components/search';
 import classes from '@/styles/main.module.scss';
 import { Pagination } from '@/components/pagination';
-import { Outlet } from 'react-router-dom';
 import useSearchQuery from '@/hooks/use-search-query';
 import { ThemeButton } from '@/components/theme-button';
 import { Flyout } from '@/components/flyout';
 import { useRouter } from 'next/router';
+import { MainAsideDetails } from '@/components/main-aside-details';
 
 export function Main(): JSX.Element {
   const router = useRouter();
@@ -43,7 +43,7 @@ export function Main(): JSX.Element {
           <Pagination />
           <Flyout />
         </main>
-        <Outlet />
+        <MainAsideDetails />
       </div>
     </>
   );

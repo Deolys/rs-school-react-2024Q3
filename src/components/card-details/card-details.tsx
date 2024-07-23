@@ -3,11 +3,11 @@ import { Loading } from '@/components/loading';
 import { Alert } from '@/components/alert';
 import { useGetCardByIdQuery } from '@/services/api';
 import classes from './card-details.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 
 export function CardDetails(): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const details = Number(searchParams.get('details'));
+  const params = useSearchParams();
+  const details = Number(params.get('details'));
   const { data, error, isFetching } = useGetCardByIdQuery(details);
   const card = data?.data;
 
