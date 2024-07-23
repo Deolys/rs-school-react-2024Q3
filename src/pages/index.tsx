@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { CardList } from '@/components/card-list';
 import { Header } from '@/components/header';
@@ -14,13 +13,18 @@ import { MainAsideDetails } from '@/components/main-aside-details';
 export function Main(): JSX.Element {
   const router = useRouter();
   const [storedValue, setStoredValue] = useSearchQuery('search-term', '');
+  const queryParam = router.query.q?.toString();
 
-  const handleSearch = useCallback(
-    (search: string): void => {
-      setStoredValue(search);
-    },
-    [setStoredValue],
-  );
+  const handleSearch = (searchValue: string): void => {
+    const newSearchParams: { page: string; q?: string } = { page: '1' };
+    if (searchValue) {
+      newSearchParams.q = searchValue;
+    }
+    if (searchValue !== storedValue) {
+      router.push({ query: { ...newSearchParams } });
+    }
+    setStoredValue(searchValue);
+  };
 
   const handleAsideClose = (): void => {
     const { details, ...params } = router.query;
@@ -33,13 +37,13 @@ export function Main(): JSX.Element {
     <>
       <Header>
         <>
-          <Search initialValue={storedValue} onSearch={handleSearch} />
+          <Search initialValue={queryParam || storedValue} onSearch={handleSearch} />
           <ThemeButton />
         </>
       </Header>
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
-          <CardList queryParam={storedValue} />
+          <CardList queryParam={queryParam || storedValue} />
           <Pagination />
           <Flyout />
         </main>
