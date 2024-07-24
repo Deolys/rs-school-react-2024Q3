@@ -1,15 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { NotFoundPage } from '../pages/not-found-page';
-import { MemoryRouter } from 'react-router-dom';
+import { NotFoundPage } from '@/pages/404';
 
 describe('NotFoundPage', () => {
   it('should render correctly', () => {
-    render(
-      <MemoryRouter>
-        <NotFoundPage />
-      </MemoryRouter>,
-    );
+    render(<NotFoundPage />);
     const message = screen.getByText(/page not found/i);
     expect(message).toBeInTheDocument();
   });

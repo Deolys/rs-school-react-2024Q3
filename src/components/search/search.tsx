@@ -6,14 +6,12 @@ interface SearchProps {
   initialValue: string;
 }
 
-interface FormAddition extends HTMLFormElement {
-  search: HTMLInputElement;
-}
-
 export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
-  const handleSubmit = (e: FormEvent<FormAddition>): void => {
+  const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
-    const searchTerm = e.currentTarget.search.value;
+    const form = e.target as HTMLFormElement;
+    const data = new FormData(form);
+    const searchTerm = (data.get('search') as string).trim() || '';
     const searchValue = searchTerm.trim();
     onSearch(searchValue);
   };

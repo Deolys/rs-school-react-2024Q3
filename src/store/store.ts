@@ -17,14 +17,14 @@ export const setupStore = (preloadedState?: Partial<RootState>): Store<RootState
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(animeApi.middleware),
   });
 
-const makeStore = (): Store<RootState> =>
+const makeStore = () =>
   configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(animeApi.middleware),
   });
 
 export const store = setupStore();
-export type RootState = { [Key: string]: typeof rootReducer };
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = AppStore['dispatch'];
 export const wrapper = createWrapper<AppStore>(makeStore);

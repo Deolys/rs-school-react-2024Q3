@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { Card } from '@/components/card';
-import { mockCardsPagesData, mockCard } from '../test/__mocks__/mock-data';
-import { PageRoutes } from '../routes';
+import { mockCardsPagesData, mockCard } from '@/test/__mocks__/mock-data';
 import fetchMock from 'jest-fetch-mock';
 import { SERVER_URL } from '@/services/variables';
-import renderWithProviders from '../test/utils/redux-provider';
+import renderWithProviders from '@/test/utils/redux-provider';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import Main from '@/pages';
 
 describe('Card Component', () => {
   fetchMock.enableMocks();
@@ -17,9 +17,9 @@ describe('Card Component', () => {
 
   it('renders the relevant card data', () => {
     renderWithProviders(
-      <MemoryRouter>
+      <MemoryRouterProvider>
         <Card card={mockCard} />
-      </MemoryRouter>,
+      </MemoryRouterProvider>,
     );
     expect(screen.getByText('Title 1')).toBeInTheDocument();
     expect(screen.getByText('7.5')).toBeInTheDocument();
@@ -31,9 +31,9 @@ describe('Card Component', () => {
   it('opens a detailed card component on click', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
     const { container } = renderWithProviders(
-      <MemoryRouter>
-        <PageRoutes />
-      </MemoryRouter>,
+      <MemoryRouterProvider>
+        <Main />
+      </MemoryRouterProvider>,
     );
     const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
     expect(link).toBeInTheDocument();
@@ -47,15 +47,16 @@ describe('Card Component', () => {
   it('triggers an additional API call to fetch detailed information on click', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
     renderWithProviders(
-      <MemoryRouter>
-        <PageRoutes />
-      </MemoryRouter>,
+      <MemoryRouterProvider>
+        <Main />
+      </MemoryRouterProvider>,
     );
+    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
     const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
     fireEvent.click(link);
     await waitFor(
       () => {
-        expect(fetchMock).toHaveBeenLastCalledWith(
+        expect(fetchMock).toHaveBeenCalledWith(
           expect.objectContaining({ url: `${SERVER_URL}/${mockCard.mal_id}` }),
         );
       },

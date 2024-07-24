@@ -1,15 +1,17 @@
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { MainAsideDetails } from '@/components/main-aside-details';
-import { MemoryRouter } from 'react-router-dom';
-import renderWithProviders from '../test/utils/redux-provider';
+import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import renderWithProviders from '@/test/utils/redux-provider';
+
+jest.mock('next/router', () => jest.requireActual('next-router-mock'));
 
 describe('MainAsideDetails', () => {
   it('hides the component by clicking the close button ', async () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={['/?details=1']}>
+      <MemoryRouterProvider url={'/?details=1'}>
         <MainAsideDetails />
-      </MemoryRouter>,
+      </MemoryRouterProvider>,
     );
 
     fireEvent.click(screen.getByRole('button', { name: /cross/i }));
