@@ -28,3 +28,4 @@ coverage
 *.lcov
 
 .next
+next-env.d.ts

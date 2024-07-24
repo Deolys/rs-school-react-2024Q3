@@ -31,6 +31,7 @@ export function Card({ card }: CardProps): JSX.Element {
       href={{ query: { ...router.query, details: card.mal_id } }}
       onClick={handleClick}
       scroll={false}
+      shallow={true}
     >
       <article className={classes.card}>
         <input

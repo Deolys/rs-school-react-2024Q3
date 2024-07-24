@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CardData, CardsPagesData, SearchParams } from './interfaces';
 import { SERVER_URL } from './variables';
+import { HYDRATE } from 'next-redux-wrapper';
+import { PayloadAction } from '@reduxjs/toolkit/react';
+import { RootState } from '@/store';
 
 //important: removes duplicates from the data due to a backend bug
 const removeDuplicates = (fullData: CardsPagesData): CardsPagesData => {
@@ -14,6 +17,11 @@ const removeDuplicates = (fullData: CardsPagesData): CardsPagesData => {
 export const animeApi = createApi({
   reducerPath: 'animeApi',
   baseQuery: fetchBaseQuery({ baseUrl: SERVER_URL }),
+  extractRehydrationInfo: (action: PayloadAction<RootState>, { reducerPath }) => {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getCardById: builder.query<CardData, number>({
       query: (id) => `/${id}`,
@@ -34,4 +42,8 @@ export const animeApi = createApi({
   }),
 });
 
-export const { useGetCardByIdQuery, useSearchCardsQuery } = animeApi;
+export const {
+  useGetCardByIdQuery,
+  useSearchCardsQuery,
+  util: { getRunningQueriesThunk },
+} = animeApi;

@@ -2,14 +2,15 @@ import type { JSX } from 'react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { FallbackUI } from '@/components/fallback-ui';
 import { ThemeContext, ThemeProvider } from '@/contexts/theme-context';
-import { store } from '@/store';
+import { wrapper } from '@/store';
 import '@/styles/global.scss';
 import { AppProps } from 'next/app';
 import { useContext } from 'react';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 
-export default function App({ Component, pageProps }: AppProps): JSX.Element {
+export function App({ Component, pageProps }: AppProps): JSX.Element {
+  const { store } = wrapper.useWrappedStore(pageProps);
   return (
     <Provider store={store}>
       <Head>
@@ -34,3 +35,5 @@ function ThemeWrapper({ children }: { children: JSX.Element }): JSX.Element {
   const { theme } = useContext(ThemeContext);
   return <div className={`app ${theme}`}>{children}</div>;
 }
+
+export default App;
