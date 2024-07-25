@@ -11,8 +11,8 @@ import { MainAsideDetails } from '@/components/main-aside-details';
 import { wrapper } from '@/store';
 import { animeApi, getRunningQueriesThunk, useSearchCardsQuery } from '@/services/api';
 import { Loading } from '@/components/loading';
-import useActions from '@/hooks/use-actions';
 import { Alert } from '@/components/alert';
+import useActions from '@/hooks/use-actions';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const { page, q: query, details } = context.query;
