@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { animeApi } from '@/services/api';
-import { CardsPagesData, ICard, PaginationData } from '@/services/interfaces';
+import { ICard, PaginationData } from '@/services/interfaces';
 
 interface InitialState {
   cards: {
@@ -33,33 +32,10 @@ const cardsSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setPagination: (state, action: PayloadAction<PaginationData>) => {
-      state.pagination.data = action.payload;
-      state.pagination.status = 'success';
+    setCards: (state, action: PayloadAction<ICard[]>) => {
+      state.cards.items = action.payload;
+      state.cards.status = 'success';
     },
-  },
-  extraReducers: (builder) => {
-    builder.addMatcher(animeApi.endpoints.searchCards.matchPending, (state) => {
-      state.cards.items = [];
-      state.pagination.data = null;
-      state.cards.status = 'loading';
-      state.pagination.status = 'loading';
-    });
-    builder.addMatcher(
-      animeApi.endpoints.searchCards.matchFulfilled,
-      (state, action: PayloadAction<CardsPagesData>) => {
-        state.cards.items = action.payload.data;
-        state.pagination.data = action.payload.pagination;
-        state.cards.status = 'success';
-        state.pagination.status = 'success';
-      },
-    );
-    builder.addMatcher(animeApi.endpoints.searchCards.matchRejected, (state) => {
-      state.cards.items = [];
-      state.pagination.data = null;
-      state.cards.status = 'error';
-      state.pagination.status = 'error';
-    });
   },
 });
 

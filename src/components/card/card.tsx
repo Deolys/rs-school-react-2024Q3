@@ -1,17 +1,20 @@
+'use client';
+
 import type { JSX, MouseEvent } from 'react';
 import { ICard } from '@/services/interfaces';
 import classes from './card.module.scss';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 interface CardProps {
   card: ICard;
 }
 
 export function Card({ card }: CardProps): JSX.Element {
-  const router = useRouter();
+  const params = useSearchParams();
+  const urlParams = new URLSearchParams(params.toString());
 
   const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
@@ -28,7 +31,7 @@ export function Card({ card }: CardProps): JSX.Element {
 
   return (
     <Link
-      href={{ query: { ...router.query, details: card.mal_id } }}
+      href={`/details/${card.mal_id}?${urlParams}`}
       onClick={handleClick}
       scroll={false}
       shallow={true}

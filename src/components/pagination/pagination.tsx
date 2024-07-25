@@ -1,25 +1,38 @@
+'use client';
+
 import type { JSX } from 'react';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
 import { PaginationData } from '@/services/interfaces';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useActions from '@/hooks/use-actions';
 
 interface PaginationProps {
   paginationData: PaginationData;
-  currentPage: number;
-  onPageChange: (pageNumber: number) => void;
 }
 
-export function Pagination({
-  paginationData,
-  currentPage,
-  onPageChange,
-}: PaginationProps): JSX.Element {
+export function Pagination({ paginationData }: PaginationProps): JSX.Element {
+  const router = useRouter();
+  const params = useSearchParams();
+  const pathname = usePathname();
+  const { setCurrentPage } = useActions();
+  const queryParam = params.get('q');
+  const currentPage = Number(params.get('page')) || 1;
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
   let showStartDots: boolean,
     showEndDots: boolean,
     showStartNumber: boolean,
     showEndNumber: boolean;
+
+  const onPageChange = (page: number): void => {
+    const newSearchParams = new URLSearchParams({ page: `${page}` });
+    if (queryParam) {
+      newSearchParams.set('q', queryParam);
+    }
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+    setCurrentPage(page);
+  };
 
   if (totalPageCount > 5) {
     showStartDots = currentPage > 3;

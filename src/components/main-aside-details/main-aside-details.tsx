@@ -1,28 +1,34 @@
-import type { JSX } from 'react';
-import { CardDetails } from '@/components/card-details';
+'use client';
+
+import type { JSX, ReactNode } from 'react';
 import classes from './main-aside-details.module.scss';
 import crossImg from '@/assets/icons/cross.svg';
-import { useRouter } from 'next/router';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-export function MainAsideDetails(): JSX.Element {
+interface MainAsideDetailsProps {
+  children: ReactNode;
+}
+
+export function MainAsideDetails({ children }: MainAsideDetailsProps): JSX.Element {
   const router = useRouter();
-  const { details, ...params } = router.query;
+  const params = useSearchParams();
+  const { id } = useParams();
 
   const handleClose = (): void => {
-    if (details) {
-      router.push({ query: { ...params } }, undefined, { scroll: false });
+    if (id) {
+      router.push(`/?${params.toString()}`);
     }
   };
 
   return (
     <>
-      {details && (
+      {id && (
         <aside className={classes.asideWrapper}>
           <button className={classes.closeButton} type="button" onClick={handleClose}>
             <Image src={crossImg} alt="cross" />
           </button>
-          <CardDetails />
+          {children}
         </aside>
       )}
     </>

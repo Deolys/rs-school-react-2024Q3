@@ -1,8 +1,8 @@
-import type { JSX } from 'react';
+import type { JSX, ReactNode } from 'react';
 import classes from './header.module.scss';
 
 interface HeaderProps {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 export function Header({ children }: HeaderProps): JSX.Element {
