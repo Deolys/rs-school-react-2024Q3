@@ -20,7 +20,7 @@ export function MainLayout({ children, cardsAndPages }: MainLayoutProps): JSX.El
   const params = useSearchParams();
   const pathname = usePathname();
   const { id } = useParams();
-  const queryParam = params.get('q');
+  const queryParam = params.get('q') || '';
 
   const handleSearch = (searchValue: string): void => {
     const newSearchParams = new URLSearchParams({ page: '1' });

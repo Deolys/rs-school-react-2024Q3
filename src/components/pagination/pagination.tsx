@@ -8,7 +8,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useActions from '@/hooks/use-actions';
 
 interface PaginationProps {
-  paginationData: PaginationData;
+  paginationData?: PaginationData;
 }
 
 export function Pagination({ paginationData }: PaginationProps): JSX.Element {
@@ -20,10 +20,10 @@ export function Pagination({ paginationData }: PaginationProps): JSX.Element {
   const currentPage = Number(params.get('page')) || 1;
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
-  let showStartDots: boolean,
-    showEndDots: boolean,
-    showStartNumber: boolean,
-    showEndNumber: boolean;
+  let showStartDots = false;
+  let showEndDots = false;
+  let showStartNumber = false;
+  let showEndNumber = false;
 
   const onPageChange = (page: number): void => {
     const newSearchParams = new URLSearchParams({ page: `${page}` });

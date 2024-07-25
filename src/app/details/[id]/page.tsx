@@ -14,7 +14,7 @@ export async function Details({
   params: { id },
   searchParams,
 }: DetailsProps): Promise<JSX.Element> {
-  const query = searchParams?.q.toString() || '';
+  const query = searchParams?.q?.toString() || '';
   const currentPage = Number(searchParams?.page) || 1;
 
   return (

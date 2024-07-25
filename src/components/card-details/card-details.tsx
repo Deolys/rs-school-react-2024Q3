@@ -4,7 +4,7 @@ import { api } from '@/services/api';
 
 export async function CardDetails({ id }: { id: number }) {
   const cardData = await api.getCardById(id);
-  const card = cardData.data;
+  const card = cardData?.data;
   if (!card) {
     return <Alert variant="error">Getting the details failed. Please, try again later</Alert>;
   }
