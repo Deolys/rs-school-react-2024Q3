@@ -8,7 +8,7 @@ import { ICard } from '@/services/interfaces';
 import useActions from '@/hooks/use-actions';
 
 interface CardListProps {
-  cards: ICard[];
+  cards?: ICard[];
 }
 
 export function CardList({ cards }: CardListProps): JSX.Element {
