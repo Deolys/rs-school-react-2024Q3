@@ -10,8 +10,8 @@ interface CardsAndPagesProps {
 
 export async function CardsAndPages({ query, page }: CardsAndPagesProps): Promise<JSX.Element> {
   const cardsPagesData = await api.searchCards(query, page);
-  const cards = cardsPagesData.data;
-  const pagination = cardsPagesData.pagination;
+  const cards = cardsPagesData?.data;
+  const pagination = cardsPagesData?.pagination;
 
   return (
     <>

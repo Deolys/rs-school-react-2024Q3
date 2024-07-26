@@ -6,7 +6,7 @@ import { Search } from '@/components/search';
 import classes from '@/styles/main.module.scss';
 import { ThemeButton } from '@/components/theme-button';
 import { Flyout } from '@/components/flyout';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { FallbackUI } from '@/components/fallback-ui';
 
@@ -18,7 +18,6 @@ interface MainLayoutProps {
 export function MainLayout({ children, cardsAndPages }: MainLayoutProps): JSX.Element {
   const router = useRouter();
   const params = useSearchParams();
-  const pathname = usePathname();
   const { id } = useParams();
   const queryParam = params.get('q') || '';
 
@@ -27,7 +26,7 @@ export function MainLayout({ children, cardsAndPages }: MainLayoutProps): JSX.El
     if (searchValue) {
       newSearchParams.append('q', searchValue);
     }
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    router.push(`/?${newSearchParams.toString()}`);
   };
 
   const handleAsideClose = (): void => {
