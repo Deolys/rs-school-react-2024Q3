@@ -12,7 +12,7 @@ import { FallbackUI } from '@/components/fallback-ui';
 
 interface MainLayoutProps {
   children?: ReactNode;
-  cardsAndPages: ReactNode;
+  cardsAndPages?: ReactNode;
 }
 
 export function MainLayout({ children, cardsAndPages }: MainLayoutProps): JSX.Element {

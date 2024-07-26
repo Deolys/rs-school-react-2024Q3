@@ -7,7 +7,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 interface MainAsideDetailsProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export function MainAsideDetails({ children }: MainAsideDetailsProps): JSX.Element {

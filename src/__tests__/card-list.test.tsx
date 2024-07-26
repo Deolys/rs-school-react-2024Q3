@@ -34,7 +34,7 @@ describe('CardList Component', () => {
     fetchMock.mockResponseOnce(JSON.stringify({ data: [], pagination: [] }));
     renderWithProviders(
       <MemoryRouterProvider>
-        <CardList cards={null} />
+        <CardList cards={undefined} />
       </MemoryRouterProvider>,
     );
     await waitFor(() => {

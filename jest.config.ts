@@ -10,7 +10,6 @@ const config: Config = {
   collectCoverage: true,
   collectCoverageFrom: [
     './src/**/*.ts?(x)',
-    '!**/_*.ts?(x)',
     '!./src/vite-env.d.ts',
     '!./src/services/interfaces.ts',
   ],

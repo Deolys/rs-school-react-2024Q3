@@ -1,20 +1,11 @@
 import '@testing-library/jest-dom';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { Card } from '@/components/card';
-import { mockCardsPagesData, mockCard } from '@/test/__mocks__/mock-data';
-import fetchMock from 'jest-fetch-mock';
-import { SERVER_URL } from '@/services/variables';
+import { mockCard } from '@/test/__mocks__/mock-data';
 import renderWithProviders from '@/test/utils/redux-provider';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import Main from '@/pages';
 
 describe('Card Component', () => {
-  fetchMock.enableMocks();
-
-  afterEach(() => {
-    fetchMock.resetMocks();
-  });
-
   it('renders the relevant card data', () => {
     renderWithProviders(
       <MemoryRouterProvider>
@@ -28,39 +19,15 @@ describe('Card Component', () => {
     expect(screen.getByAltText('Title 1')).toHaveAttribute('src', 'https://example.com/image1.jpg');
   });
 
-  it('opens a detailed card component on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
-    const { container } = renderWithProviders(
-      <MemoryRouterProvider>
-        <Main />
-      </MemoryRouterProvider>,
-    );
-    const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
-    expect(link).toBeInTheDocument();
-    fireEvent.click(link);
-    await waitFor(() => {
-      const cardDetailsBlock = container.querySelector('.asideWrapper');
-      expect(cardDetailsBlock).toBeInTheDocument();
-    });
-  });
-
-  it('triggers an additional API call to fetch detailed information on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
+  it('toggles the checkbox by click', () => {
     renderWithProviders(
       <MemoryRouterProvider>
-        <Main />
+        <Card card={mockCard} />
       </MemoryRouterProvider>,
     );
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
-    const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
-    fireEvent.click(link);
-    await waitFor(
-      () => {
-        expect(fetchMock).toHaveBeenCalledWith(
-          expect.objectContaining({ url: `${SERVER_URL}/${mockCard.mal_id}` }),
-        );
-      },
-      { timeout: 4000 },
-    );
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
   });
 });

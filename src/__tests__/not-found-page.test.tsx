@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { NotFoundPage } from '@/pages/404';
+import { NotFoundPage } from '@/components/not-found-page';
 
 describe('NotFoundPage', () => {
   it('should render correctly', () => {

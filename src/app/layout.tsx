@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Next.js app for searching and downloading information about anime',
 };
 
-export function RootLayout({ children }: { children: ReactNode }): JSX.Element {
+export function RootLayout({ children }: { children?: ReactNode }): JSX.Element {
   return (
     <html lang="en">
       <head>

@@ -14,7 +14,7 @@ interface CardProps {
 
 export function Card({ card }: CardProps): JSX.Element {
   const params = useSearchParams();
-  const urlParams = params.toString();
+  const urlParams = params?.toString();
 
   const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
