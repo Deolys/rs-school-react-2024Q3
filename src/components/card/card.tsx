@@ -12,6 +12,7 @@ interface CardProps {
 
 export function Card({ card }: CardProps): JSX.Element {
   const router = useRouter();
+  const { setAsideIsOpen } = useActions();
 
   const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
@@ -19,6 +20,7 @@ export function Card({ card }: CardProps): JSX.Element {
 
   const handleClick = (e: MouseEvent): void => {
     e.stopPropagation();
+    setAsideIsOpen(true);
   };
 
   const toggleCheckbox = (e: MouseEvent): void => {
@@ -31,7 +33,6 @@ export function Card({ card }: CardProps): JSX.Element {
       href={{ query: { ...router.query, details: card.mal_id } }}
       onClick={handleClick}
       scroll={false}
-      shallow={true}
     >
       <article className={classes.card}>
         <input

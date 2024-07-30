@@ -40,8 +40,4 @@ export const animeApi = createApi({
   }),
 });
 
-export const {
-  useGetCardByIdQuery,
-  useSearchCardsQuery,
-  util: { getRunningQueriesThunk },
-} = animeApi;
+export const { useGetCardByIdQuery, useSearchCardsQuery } = animeApi;

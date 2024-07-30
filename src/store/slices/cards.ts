@@ -12,6 +12,7 @@ interface InitialState {
     status: string;
   };
   currentPage: number;
+  asideIsOpen: boolean;
 }
 
 const initialState: InitialState = {
@@ -24,6 +25,7 @@ const initialState: InitialState = {
     status: 'loading',
   },
   currentPage: 1,
+  asideIsOpen: false,
 };
 
 const cardsSlice = createSlice({
@@ -36,6 +38,9 @@ const cardsSlice = createSlice({
     setPagination: (state, action: PayloadAction<PaginationData>) => {
       state.pagination.data = action.payload;
       state.pagination.status = 'success';
+    },
+    setAsideIsOpen: (state, action: PayloadAction<boolean>) => {
+      state.asideIsOpen = action.payload;
     },
   },
   extraReducers: (builder) => {

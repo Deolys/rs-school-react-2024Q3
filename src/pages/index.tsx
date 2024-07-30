@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import { useState, type JSX } from 'react';
 import { CardList } from '@/components/card-list';
 import { Header } from '@/components/header';
 import { Search } from '@/components/search';
@@ -9,51 +9,61 @@ import { Flyout } from '@/components/flyout';
 import { useRouter } from 'next/router';
 import { MainAsideDetails } from '@/components/main-aside-details';
 import { wrapper } from '@/store';
-import { animeApi, getRunningQueriesThunk, useSearchCardsQuery } from '@/services/api';
+import { animeApi } from '@/services/api';
 import { Loading } from '@/components/loading';
 import useActions from '@/hooks/use-actions';
-import { Alert } from '@/components/alert';
+import { CardData, CardsPagesData } from '@/services/interfaces';
+
+interface MainProps {
+  cardsPagesData: { data: CardsPagesData };
+  detailsData: { data: CardData };
+}
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const { page, q: query, details } = context.query;
-  store.dispatch(
+  const cardsPagesData = await store.dispatch(
     animeApi.endpoints.searchCards.initiate({
       queryParam: query?.toString() || '',
       page: Number(page) || 1,
     }),
   );
-  if (details) {
-    store.dispatch(animeApi.endpoints.getCardById.initiate(Number(details)));
-  }
-  await Promise.all(store.dispatch(getRunningQueriesThunk()));
-  return { props: {} };
+  const detailsData = details
+    ? await store.dispatch(animeApi.endpoints.getCardById.initiate(Number(details)))
+    : null;
+  return { props: { cardsPagesData: cardsPagesData || null, detailsData } };
 });
 
-export function Main(): JSX.Element {
+export function Main({ cardsPagesData, detailsData }: MainProps): JSX.Element {
   const router = useRouter();
-  const { setCurrentPage } = useActions();
+  const { setCurrentPage, setAsideIsOpen } = useActions();
   const queryParam = router.query.q?.toString();
   const page = router.query.page || 1;
+  const { details, ...params } = router.query;
 
-  const { data, isFetching, error } = useSearchCardsQuery({
-    queryParam: queryParam,
-    page: Number(page),
-  });
-  const cards = data?.data;
-  const pagination = data?.pagination;
+  const cards = cardsPagesData?.data?.data;
+  const pagination = cardsPagesData?.data?.pagination;
+  const cardDetails = detailsData?.data?.data;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (searchValue: string): void => {
     const newSearchParams: { page: string; q?: string } = { page: '1' };
     if (searchValue) {
       newSearchParams.q = searchValue;
     }
-    router.push({ query: { ...newSearchParams } });
+    setIsLoading(true);
+    router.push({ query: { ...newSearchParams } }).finally(() => {
+      setIsLoading(false);
+    });
   };
 
   const handleAsideClose = (): void => {
-    const { details, ...params } = router.query;
     if (details) {
-      router.push({ query: { ...params } }, undefined, { scroll: false, shallow: true });
+      router
+        .push({ query: { ...params } }, undefined, { scroll: false, shallow: true })
+        .finally(() => {
+          setAsideIsOpen(false);
+        });
     }
   };
 
@@ -62,7 +72,10 @@ export function Main(): JSX.Element {
     if (queryParam) {
       newSearchParams.q = `${queryParam}`;
     }
-    router.push({ query: { ...newSearchParams } });
+    setIsLoading(true);
+    router.push({ query: { ...newSearchParams } }).finally(() => {
+      setIsLoading(false);
+    });
     setCurrentPage(page);
   };
 
@@ -76,9 +89,7 @@ export function Main(): JSX.Element {
       </Header>
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
-          {error ? (
-            <Alert variant="error">Something went wrong</Alert>
-          ) : isFetching ? (
+          {isLoading ? (
             <Loading />
           ) : (
             <>
@@ -92,7 +103,7 @@ export function Main(): JSX.Element {
             </>
           )}
         </main>
-        <MainAsideDetails />
+        <MainAsideDetails cardDetails={cardDetails} />
       </div>
     </>
   );
