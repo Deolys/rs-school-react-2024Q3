@@ -53,6 +53,7 @@ export function Main({ cardsPagesData, detailsData }: MainProps): JSX.Element {
     }
     setIsLoading(true);
     router.push({ query: { ...newSearchParams } }).finally(() => {
+      setAsideIsOpen(false);
       setIsLoading(false);
     });
   };
