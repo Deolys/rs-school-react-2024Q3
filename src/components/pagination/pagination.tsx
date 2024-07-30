@@ -16,10 +16,10 @@ export function Pagination({
 }: PaginationProps): JSX.Element {
   const totalPageCount = paginationData?.last_visible_page || 0;
   const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
-  let showStartDots: boolean,
-    showEndDots: boolean,
-    showStartNumber: boolean,
-    showEndNumber: boolean;
+  let showStartDots = false;
+  let showEndDots = false;
+  let showStartNumber = false;
+  let showEndNumber = false;
 
   if (totalPageCount > 5) {
     showStartDots = currentPage > 3;

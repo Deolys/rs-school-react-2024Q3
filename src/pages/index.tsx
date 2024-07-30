@@ -36,7 +36,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 export function Main({ cardsPagesData, detailsData }: MainProps): JSX.Element {
   const router = useRouter();
   const { setCurrentPage, setAsideIsOpen } = useActions();
-  const queryParam = router.query.q?.toString();
+  const queryParam = router.query.q?.toString() || '';
   const page = router.query.page || 1;
   const { details, ...params } = router.query;
 
