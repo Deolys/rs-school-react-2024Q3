@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { Card } from '@/components/card';
 import { mockCardsPagesData, mockCard } from '@/test/__mocks__/mock-data';
 import fetchMock from 'jest-fetch-mock';
@@ -29,10 +29,12 @@ describe('Card Component', () => {
   });
 
   it('opens a detailed card component on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
     const { container } = renderWithProviders(
       <MemoryRouterProvider>
-        <Main />
+        <Main
+          cardsPagesData={{ data: mockCardsPagesData }}
+          detailsData={{ data: { data: mockCard } }}
+        />
       </MemoryRouterProvider>,
     );
     const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
@@ -45,22 +47,23 @@ describe('Card Component', () => {
   });
 
   it('triggers an additional API call to fetch detailed information on click', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
     renderWithProviders(
       <MemoryRouterProvider>
-        <Main />
+        <Main cardsPagesData={{ data: mockCardsPagesData }} detailsData={null} />
       </MemoryRouterProvider>,
     );
-    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
-    const link = await screen.findByRole('heading', { level: 3, name: /title 1/i });
-    fireEvent.click(link);
-    await waitFor(
-      () => {
-        expect(fetchMock).toHaveBeenCalledWith(
-          expect.objectContaining({ url: `${SERVER_URL}/${mockCard.mal_id}` }),
-        );
-      },
-      { timeout: 4000 },
-    );
+
+    act(() => {
+      const link = screen.getByRole('heading', { level: 3, name: /title 1/i });
+      fireEvent.click(link);
+      waitFor(
+        () => {
+          expect(fetchMock).toHaveBeenCalledWith(
+            expect.objectContaining({ url: `${SERVER_URL}/${mockCard.mal_id}` }),
+          );
+        },
+        { timeout: 4000 },
+      );
+    });
   });
 });
