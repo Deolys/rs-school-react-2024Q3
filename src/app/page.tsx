@@ -18,7 +18,7 @@ export async function Main({
   return (
     <MainLayout
       cardsAndPages={
-        <Suspense fallback={<Loading />}>
+        <Suspense key={query + currentPage} fallback={<Loading />}>
           <CardsAndPages query={query} page={currentPage} />
         </Suspense>
       }

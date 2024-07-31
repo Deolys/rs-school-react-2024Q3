@@ -20,7 +20,7 @@ export async function Details({
   return (
     <MainLayout cardsAndPages={<CardsAndPages query={query} page={currentPage} />}>
       <MainAsideDetails>
-        <Suspense fallback={<Loading />}>
+        <Suspense key={query + id} fallback={<Loading />}>
           <CardDetails id={+id} />
         </Suspense>
       </MainAsideDetails>

@@ -19,12 +19,12 @@ export const api = {
     if (query) {
       params.append('q', query);
     }
-    const response = await fetch(`${SERVER_URL}?${params.toString()}`);
+    const response = await fetch(`${SERVER_URL}?${params.toString()}`, { cache: 'no-store' });
     const data = await response.json();
     return removeDuplicates(data);
   },
   getCardById: async (id: number): Promise<CardData | null> => {
-    const response = await fetch(`${SERVER_URL}/${id}`);
+    const response = await fetch(`${SERVER_URL}/${id}`, { cache: 'no-store' });
     const data = await response.json();
     return data;
   },
