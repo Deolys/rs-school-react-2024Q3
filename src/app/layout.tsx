@@ -1,4 +1,4 @@
-import type { JSX, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Metadata } from 'next';
 import '@/styles/global.scss';
 import { Providers } from '@/components/providers';
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Next.js app for searching and downloading information about anime',
 };
 
-export function RootLayout({ children }: { children?: ReactNode }): JSX.Element {
+export default function RootLayout({ children }: { children?: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -20,5 +20,3 @@ export function RootLayout({ children }: { children?: ReactNode }): JSX.Element 
     </html>
   );
 }
-
-export default RootLayout;
