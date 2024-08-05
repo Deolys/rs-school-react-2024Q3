@@ -16,12 +16,15 @@ const themes = {
 };
 
 const getCurrentTheme = (): string => {
-  const theme = `${localStorage.getItem('theme')}`;
-  if (Object.values(themes).includes(theme)) return theme;
+  if (typeof window !== 'undefined') {
+    {
+      const theme = `${window.localStorage.getItem('theme')}`;
+      if (Object.values(themes).includes(theme)) return theme;
 
-  const userMedia = window.matchMedia('(prefers-color-scheme: dark)');
-  if (userMedia.matches) return themes.dark;
-
+      const userMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      if (userMedia.matches) return themes.dark;
+    }
+  }
   return themes.light;
 };
 
