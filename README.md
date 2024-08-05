@@ -1,6 +1,6 @@
-# Redux. Redux Toolkit, RTK Query. Context api.
+# Next.js. Server Side Rendering
 
-[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/redux.md)
+[List of completed project tasks](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/nextjs-ssr-ssg.md)
 
 ### Install dependencies
 
