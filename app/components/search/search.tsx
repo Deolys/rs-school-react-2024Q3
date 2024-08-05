@@ -1,9 +1,10 @@
 import type { JSX, FormEvent } from 'react';
 import classes from './search.module.scss';
-import { useSearchParams } from '@remix-run/react';
+import { useNavigate, useSearchParams } from '@remix-run/react';
 
 export function Search(): JSX.Element {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const initialValue = searchParams.get('q') || '';
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
@@ -15,7 +16,7 @@ export function Search(): JSX.Element {
     if (searchValue) {
       newSearchParams.append('q', searchValue);
     }
-    location.replace(`/main?${newSearchParams.toString()}`);
+    navigate(`/main?${newSearchParams.toString()}`);
   };
 
   return (

@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import { CardDetails } from '@/components/card-details';
-import { useLoaderData, useParams, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useParams, useSearchParams } from '@remix-run/react';
 import classes from '@/styles/main-aside-details.module.scss';
 import crossImg from '@/assets/icons/cross.svg';
 import { api } from '@/services/api';
@@ -18,12 +18,13 @@ export async function loader({
 
 export function MainAsideDetails(): JSX.Element {
   const detailsData = useLoaderData<CardData | null>();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const params = useParams();
   const details = params.detailsId;
 
   const handleClose = (): void => {
-    location.replace(`/main?${searchParams.toString()}`);
+    navigate(`/main?${searchParams.toString()}`);
   };
 
   return (

@@ -4,7 +4,7 @@ import { Header } from '@/components/header';
 import { Search } from '@/components/search';
 import classes from '@/styles/main.module.scss';
 import { Pagination } from '@/components/pagination';
-import { useLoaderData, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import { ThemeButton } from '@/components/theme-button';
 import { Flyout } from '@/components/flyout';
 import { Outlet } from '@remix-run/react';
@@ -26,10 +26,11 @@ export async function loader({
 export function Main(): ReactNode {
   const data = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const handleAsideClose = (): void => {
     if (location.pathname.includes('details')) {
-      location.replace(`/main?${searchParams.toString()}`);
+      navigate(`/main?${searchParams.toString()}`);
     }
   };
 
