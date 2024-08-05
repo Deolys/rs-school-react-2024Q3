@@ -3,7 +3,7 @@ import { Loading } from '@/components/loading';
 import { Alert } from '@/components/alert';
 import { useGetCardByIdQuery } from '@/services/api';
 import classes from './card-details.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from '@remix-run/react';
 
 export function CardDetails(): JSX.Element {
   const [searchParams] = useSearchParams();

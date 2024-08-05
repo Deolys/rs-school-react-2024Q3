@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import type { JSX } from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { Pagination } from '@/components/pagination';
-import { MemoryRouter, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from '@remix-run/react';
 import renderWithProviders from '../test/utils/redux-provider';
 import { mockPagination } from '../test/__mocks__/mock-data';
 

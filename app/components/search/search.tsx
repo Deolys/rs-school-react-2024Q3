@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import classes from './search.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from '@remix-run/react';
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;

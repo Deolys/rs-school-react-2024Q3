@@ -3,7 +3,7 @@ import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from '@remix-run/react';
 
 export function Pagination(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();

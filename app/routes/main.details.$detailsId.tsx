@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import { CardDetails } from '@/components/card-details';
 import { useSearchParams } from '@remix-run/react';
-import classes from './main-aside-details.module.scss';
+import classes from '@/components/main-aside-details/main-aside-details.module.scss';
 import crossImg from '@/assets/icons/cross.svg';
 
 export function MainAsideDetails(): JSX.Element {
