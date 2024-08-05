@@ -1,54 +1,32 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { JSX, FormEvent } from 'react';
 import classes from './search.module.scss';
 import { useSearchParams } from '@remix-run/react';
 
-interface SearchProps {
-  onSearch: (searchTerm: string) => void;
-  initialValue: string;
-}
-
-export function Search({ initialValue, onSearch }: SearchProps): JSX.Element {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(initialValue);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+export function Search(): JSX.Element {
+  const [searchParams] = useSearchParams();
+  const initialValue = searchParams.get('q') || '';
+  const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const data = new FormData(form);
+    const searchTerm = (data.get('search') as string).trim() || '';
     const searchValue = searchTerm.trim();
-
-    const newSearchParams: { page: string; q?: string } = { page: '1' };
+    const newSearchParams = new URLSearchParams({ page: '1' });
     if (searchValue) {
-      newSearchParams.q = searchValue;
+      newSearchParams.append('q', searchValue);
     }
-    if (searchValue !== initialValue) {
-      setSearchParams(newSearchParams);
-    }
-    onSearch(searchValue);
+    location.replace(`/main?${newSearchParams.toString()}`);
   };
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSearchTerm(e.target.value);
-  };
-
-  useEffect(() => {
-    const query = searchParams.get('q');
-
-    if (query && initialValue !== query) {
-      onSearch(query);
-      setSearchTerm(query);
-    }
-  }, [searchParams, onSearch, initialValue]);
 
   return (
     <div className={classes.searchContainer}>
       <form className={classes.searchForm} onSubmit={handleSubmit}>
         <input
           className={classes.searchInput}
-          onChange={handleSearchChange}
           type="search"
-          value={searchTerm}
           name="search"
           placeholder="Search for anime..."
+          defaultValue={initialValue}
         />
         <button className={classes.searchButton} type="submit">
           Search

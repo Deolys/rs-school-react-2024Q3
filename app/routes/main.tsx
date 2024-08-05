@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { CardList } from '@/components/card-list';
 import { Header } from '@/components/header';
@@ -6,7 +5,6 @@ import { Search } from '@/components/search';
 import classes from '@/styles/main.module.scss';
 import { Pagination } from '@/components/pagination';
 import { useLoaderData, useSearchParams } from '@remix-run/react';
-import useSearchQuery from '@/hooks/use-search-query';
 import { ThemeButton } from '@/components/theme-button';
 import { Flyout } from '@/components/flyout';
 import { Outlet } from '@remix-run/react';
@@ -27,20 +25,11 @@ export async function loader({
 
 export function Main(): ReactNode {
   const data = useLoaderData<typeof loader>();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [storedValue, setStoredValue] = useSearchQuery('search-term', '');
-
-  const handleSearch = useCallback(
-    (search: string): void => {
-      setStoredValue(search);
-    },
-    [setStoredValue],
-  );
+  const [searchParams] = useSearchParams();
 
   const handleAsideClose = (): void => {
-    if (searchParams.has('details')) {
-      searchParams.delete('details');
-      setSearchParams(searchParams);
+    if (location.pathname.includes('details')) {
+      location.replace(`/main?${searchParams.toString()}`);
     }
   };
 
@@ -48,7 +37,7 @@ export function Main(): ReactNode {
     <>
       <Header>
         <>
-          <Search initialValue={storedValue} onSearch={handleSearch} />
+          <Search />
           <ThemeButton />
         </>
       </Header>

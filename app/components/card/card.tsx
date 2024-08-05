@@ -1,19 +1,16 @@
 import type { JSX, MouseEvent } from 'react';
 import { ICard } from '@/services/interfaces';
 import classes from './card.module.scss';
-import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '@/store/hooks';
 import useActions from '@/hooks/use-actions';
+import { Link, useSearchParams } from '@remix-run/react';
 
 interface CardProps {
   card: ICard;
 }
 
 export function Card({ card }: CardProps): JSX.Element {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  searchParams.set('details', `${card.mal_id}`);
-
+  const [searchParams] = useSearchParams();
   const selectedCards = useAppSelector((state) => state.selectedCards);
   const isSelected = selectedCards.some((item) => item.mal_id === card.mal_id);
   const { toggleSelected } = useActions();
@@ -28,7 +25,7 @@ export function Card({ card }: CardProps): JSX.Element {
   };
 
   return (
-    <Link to={`${location.pathname}?${searchParams}`} onClick={handleClick}>
+    <Link to={`/main/details/${card.mal_id}?${searchParams.toString()}`} onClick={handleClick}>
       <article className={classes.card}>
         <input
           className={classes.checkbox}

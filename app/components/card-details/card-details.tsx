@@ -1,23 +1,13 @@
 import type { JSX } from 'react';
-import { Loading } from '@/components/loading';
-import { Alert } from '@/components/alert';
-import { useGetCardByIdQuery } from '@/services/api';
 import classes from './card-details.module.scss';
-import { useSearchParams } from '@remix-run/react';
+import { CardData } from '@/services/interfaces';
 
-export function CardDetails(): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const details = Number(searchParams.get('details'));
-  const { data, error, isFetching } = useGetCardByIdQuery(details);
-  const card = data?.data;
+interface CardDetailsProps {
+  detailsData: CardData | null;
+}
 
-  if (error) {
-    return <Alert variant="error">Getting the details failed. Please, try again later</Alert>;
-  }
-
-  if (isFetching) {
-    return <Loading />;
-  }
+export function CardDetails({ detailsData }: CardDetailsProps): JSX.Element {
+  const card = detailsData?.data;
 
   return (
     <div className={classes.detailsWrapper}>

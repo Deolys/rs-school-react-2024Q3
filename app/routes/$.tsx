@@ -8,7 +8,7 @@ export function NotFoundPage(): JSX.Element {
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Page not found</h1>
       <img src={pageNotFoundImg} alt="Page not found" />
-      <Link to="/" className={classes.homeLink}>
+      <Link to="/main" className={classes.homeLink}>
         Go home
       </Link>
     </div>
