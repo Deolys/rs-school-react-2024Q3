@@ -1,11 +1,12 @@
-import { Links, Meta, Outlet, Scripts } from '@remix-run/react';
-import React, { useContext, type JSX } from 'react';
+import { Links, Meta, Scripts } from '@remix-run/react';
+import React, { type ReactNode, useContext, type JSX } from 'react';
 import { ThemeContext, ThemeProvider } from './contexts/theme-context';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import './index.scss';
 import { ErrorBoundary } from './components/error-boundary';
 import { FallbackUI } from './components/fallback-ui';
+import { Main } from './pages/main';
 
 export default function App(): JSX.Element {
   return (
@@ -19,7 +20,9 @@ export default function App(): JSX.Element {
         <React.StrictMode>
           <Provider store={store}>
             <ThemeProvider>
-              <ThemeLayout />
+              <ThemeLayout>
+                <Main />
+              </ThemeLayout>
               <Scripts />
             </ThemeProvider>
           </Provider>
@@ -29,13 +32,11 @@ export default function App(): JSX.Element {
   );
 }
 
-function ThemeLayout(): JSX.Element {
+function ThemeLayout({ children }: { children: ReactNode }): ReactNode {
   const { theme } = useContext(ThemeContext);
   return (
     <div className={`app ${theme}`}>
-      <ErrorBoundary fallback={<FallbackUI />}>
-        <Outlet />
-      </ErrorBoundary>
+      <ErrorBoundary fallback={<FallbackUI />}>{children}</ErrorBoundary>
     </div>
   );
 }
