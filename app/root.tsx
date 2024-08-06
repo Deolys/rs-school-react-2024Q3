@@ -37,26 +37,30 @@ export default function App(): JSX.Element {
         <Links />
       </head>
       <body>
-        <React.StrictMode>
-          <ThemeProvider>
-            <AppWrapper>
-              <Outlet />
-            </AppWrapper>
-            <Scripts />
-          </ThemeProvider>
-        </React.StrictMode>
+        <Providers>
+          <Outlet />
+          <Scripts />
+        </Providers>
       </body>
     </html>
   );
 }
 
-function AppWrapper({ children }: { children: ReactNode }): ReactNode {
-  const { theme } = useContext(ThemeContext);
+function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`app ${theme}`}>
-      <ErrorBoundary fallback={<FallbackUI />}>
-        <Provider store={store}>{children}</Provider>
-      </ErrorBoundary>
-    </div>
+    <React.StrictMode>
+      <Provider store={store}>
+        <ThemeProvider>
+          <ThemeWrapper>
+            <ErrorBoundary fallback={<FallbackUI />}>{children}</ErrorBoundary>
+          </ThemeWrapper>
+        </ThemeProvider>
+      </Provider>
+    </React.StrictMode>
   );
+}
+
+function ThemeWrapper({ children }: { children: ReactNode }): JSX.Element {
+  const { theme } = useContext(ThemeContext);
+  return <div className={`app ${theme}`}>{children}</div>;
 }
