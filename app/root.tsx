@@ -32,6 +32,7 @@ export default function App(): JSX.Element {
   return (
     <html>
       <head>
+        <link rel="icon" href="/main/favicon.ico" />
         <Meta />
         <Links />
       </head>
