@@ -1,12 +1,19 @@
 import type { JSX } from 'react';
 import { CardDetails } from '@/components/card-details';
-import { useLoaderData, useNavigate, useParams, useSearchParams } from '@remix-run/react';
+import {
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useParams,
+  useSearchParams,
+} from '@remix-run/react';
 import classes from '@/styles/main-aside-details.module.scss';
 import crossImg from '@/assets/icons/cross.svg';
 import { api } from '@/services/api';
 import { json, TypedResponse } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { CardData } from '@/services/interfaces';
+import { Loading } from '@/components/loading';
 
 export async function loader({
   params,
@@ -19,6 +26,7 @@ export async function loader({
 export function MainAsideDetails(): JSX.Element {
   const detailsData = useLoaderData<CardData | null>();
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
   const params = useParams();
   const details = params.detailsId;
@@ -34,7 +42,7 @@ export function MainAsideDetails(): JSX.Element {
           <button className={classes.closeButton} type="button" onClick={handleClose}>
             <img src={crossImg} alt="cross" />
           </button>
-          <CardDetails detailsData={detailsData} />
+          {navigation.state === 'loading' ? <Loading /> : <CardDetails detailsData={detailsData} />}
         </aside>
       )}
     </>

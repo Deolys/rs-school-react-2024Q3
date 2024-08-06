@@ -4,7 +4,7 @@ import { Header } from '@/components/header';
 import { Search } from '@/components/search';
 import classes from '@/styles/main.module.scss';
 import { Pagination } from '@/components/pagination';
-import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
 import { ThemeButton } from '@/components/theme-button';
 import { Flyout } from '@/components/flyout';
 import { Outlet } from '@remix-run/react';
@@ -12,6 +12,7 @@ import { api } from '@/services/api';
 import { json, TypedResponse } from '@remix-run/node';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { CardsPagesData } from '@/services/interfaces';
+import { Loading } from '@/components/loading';
 
 export async function loader({
   request,
@@ -25,8 +26,10 @@ export async function loader({
 
 export function Main(): ReactNode {
   const data = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const hasDetails = navigation.location?.pathname.includes('details');
 
   const handleAsideClose = (): void => {
     if (location.pathname.includes('details')) {
@@ -44,8 +47,14 @@ export function Main(): ReactNode {
       </Header>
       <div className={classes.container}>
         <main className={classes.wrapper} onClick={handleAsideClose}>
-          <CardList cardsData={data} />
-          <Pagination />
+          {navigation.state === 'loading' && !hasDetails ? (
+            <Loading />
+          ) : (
+            <>
+              <CardList cardsData={data} />
+              <Pagination />
+            </>
+          )}
           <Flyout />
         </main>
         <Outlet />

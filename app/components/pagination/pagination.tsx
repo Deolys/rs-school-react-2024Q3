@@ -12,9 +12,11 @@ export function Pagination(): JSX.Element {
   const currentPage = useAppSelector((state) => state.cards.currentPage);
   const { setCurrentPage } = useActions();
   const onPageChange = (page: number): void => {
-    searchParams.set('page', `${page}`);
-    setSearchParams(searchParams);
-    setCurrentPage(page);
+    if (!location.pathname.includes('details')) {
+      searchParams.set('page', `${page}`);
+      setSearchParams(searchParams);
+      setCurrentPage(page);
+    }
   };
 
   useEffect(() => {
