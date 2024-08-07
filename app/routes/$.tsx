@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@remix-run/react';
 import classes from '@/styles/not-found-page.module.scss';
 import pageNotFoundImg from '@/assets/images/page-not-found.png';
 
