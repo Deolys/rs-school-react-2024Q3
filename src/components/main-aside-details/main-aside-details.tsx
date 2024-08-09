@@ -46,8 +46,9 @@ export function MainAsideDetails({ cardDetails }: MainAsideDetailsProps): JSX.El
 
   const handleClose = (): void => {
     if (details) {
-      setAsideIsOpen(false);
-      router.push({ query: { ...params } }, undefined, { scroll: false });
+      router.push({ query: { ...params } }, undefined, { scroll: false }).finally(() => {
+        setAsideIsOpen(false);
+      });
     }
   };
 
