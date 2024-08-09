@@ -2,10 +2,9 @@ export default {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    './src/**/*.ts?(x)',
-    '!./src/main.tsx',
-    '!./src/vite-env.d.ts',
-    '!./src/services/interfaces.ts',
+    './app/**/*.ts?(x)',
+    '!./app/vite-env.d.ts',
+    '!./app/services/interfaces.ts',
   ],
   coverageDirectory: '<rootDir>/reports/coverage',
   coverageProvider: 'v8',
@@ -23,10 +22,10 @@ export default {
     '^.+\\.tsx?$': 'ts-jest',
   },
   roots: ['<rootDir>'],
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  setupFiles: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
-    '\\.(gif|ttf|eot|svg|png|jpg)$': '<rootDir>/src/test/__mocks__/fileMock.js',
-    '\\.(scss)$': 'identity-obj-proxy',
-    '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(gif|ttf|eot|svg|png|jpg)$': '<rootDir>/app/test/__mocks__/fileMock.js',
+    '\\.(scss|scss\\?url)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/app/$1',
   },
 };
