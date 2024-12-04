@@ -1,0 +1,39 @@
+.flyout {
+  position: fixed;
+  bottom: 0;
+  border-top-right-radius: 15px;
+  background-color: var(--color-steel-blue);
+  padding: 7px 7px 7px clamp(1rem, -0.313rem + 6.56vw, 6.25rem);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  p {
+    color: var(--text-color);
+    font-size: 15px;
+  }
+}
+
+.selectedCount {
+  color: var(--text-color);
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+.button {
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+
+.unselectButton {
+  @extend .button;
+  background-color: var(--btn-color-blue);
+}
+
+.downloadButton {
+  @extend .button;
+  color: var(--text-color);
+  background-color: var(--color-gray-blue);
+}

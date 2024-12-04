@@ -1,42 +1,66 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { CardList } from '@components/card-list';
-import { mockCards } from '../test/__mocks__/mock-data';
+import { screen, waitFor } from '@testing-library/react';
+import { CardList } from '@/components/card-list';
+import { mockCardsPagesData } from '../test/__mocks__/mock-data';
 import { MemoryRouter } from 'react-router-dom';
+import fetchMock from 'jest-fetch-mock';
+import renderWithProviders from '../test/utils/redux-provider';
 
 describe('CardList Component', () => {
-  it('should render the specified number of cards', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <CardList cards={mockCards} isLoading={false} errorMessage={''} />
-      </MemoryRouter>,
-    );
-    expect(container.querySelectorAll('.card')).toHaveLength(mockCards.length);
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+  fetchMock.enableMocks();
+
+  afterEach(() => {
+    fetchMock.resetMocks();
   });
 
-  it('displays a message if no cards are present', () => {
-    render(
-      <MemoryRouter>
-        <CardList cards={[]} isLoading={false} errorMessage="" />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText(/no cards found/i)).toBeInTheDocument();
+  afterAll(() => {
+    fetchMock.mockClear();
+    consoleSpy.mockRestore();
   });
 
-  it('displays an error message', () => {
-    const testErrorMessage = 'Error fetching cards';
-    render(
+  it('should render the specified number of cards', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockCardsPagesData));
+    const { container } = renderWithProviders(
       <MemoryRouter>
-        <CardList cards={[]} isLoading={false} errorMessage={testErrorMessage} />
+        <CardList queryParam="" />
       </MemoryRouter>,
     );
-    expect(screen.getByText(testErrorMessage)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(container.querySelector('.card')).toBeInTheDocument();
+      expect(container.querySelectorAll('.card')).toHaveLength(mockCardsPagesData.data.length);
+    });
+  });
+
+  it('displays a message if no cards are present', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ data: [], pagination: [] }));
+    renderWithProviders(
+      <MemoryRouter>
+        <CardList queryParam="" />
+      </MemoryRouter>,
+    );
+    await waitFor(() => {
+      expect(screen.getByText(/no cards found/i)).toBeInTheDocument();
+    });
+  });
+
+  it('displays an error message', async () => {
+    const errorMessage = 'Getting cards failed. Please, try again later';
+    renderWithProviders(
+      <MemoryRouter>
+        <CardList queryParam="" />
+      </MemoryRouter>,
+    );
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
   });
 
   it('displays loading state', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <CardList cards={[]} isLoading={true} errorMessage="" />
+        <CardList queryParam="" />
       </MemoryRouter>,
     );
     expect(screen.getByTestId(/loading/i)).toBeInTheDocument();

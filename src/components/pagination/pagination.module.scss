@@ -5,11 +5,15 @@
   align-items: center;
   margin-block: 50px;
   flex-wrap: wrap;
+
+  span {
+    color: var(--text-color);
+  }
 }
 
 .paginationButton {
   color: var(--text-color);
-  background-color: #E0F8FF;
+  background-color: var(--color-gray-blue);
 
   font-family: inherit;
   font-weight: 500;
@@ -17,7 +21,7 @@
   padding: 14px 16px;
 
   &:disabled {
-    background-color: #b3c3f5;
+    background-color: var(--color-steel-blue);
   }
 }
 

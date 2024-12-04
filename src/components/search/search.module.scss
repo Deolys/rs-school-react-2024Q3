@@ -16,10 +16,12 @@
   height: 100%;
   padding: 10px 84px 10px 18px;
   border: 1px solid #2179db;
+  color: var(--text-color);
+  background-color: var(--card-color);
 
   &::placeholder {
     letter-spacing: 0.02em;
-    color: #6b6b6b;
+    color: #868686;
   }
 
   &:focus::placeholder {

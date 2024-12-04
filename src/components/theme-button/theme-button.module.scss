@@ -1,0 +1,7 @@
+.themeButton img {
+  transition: transform 0.5s ease-in-out;
+}
+
+.themeButton:active img {
+  transform: rotate(180deg);
+}

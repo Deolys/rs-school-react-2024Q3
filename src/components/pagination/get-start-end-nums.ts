@@ -9,8 +9,8 @@ export function getStartEndNums(totalPageCount: number, currentPage: number): St
     startPage = 1;
     endPage = totalPageCount;
   } else {
-    startPage = Math.max(1, Math.min(currentPage - 1, totalPageCount - 3));
-    endPage = Math.min(startPage + 3, totalPageCount);
+    startPage = Math.max(1, Math.min(currentPage - 1, totalPageCount - 2));
+    endPage = Math.min(startPage + 2, totalPageCount - 1);
   }
   return { startPage, endPage };
 }

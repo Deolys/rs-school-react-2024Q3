@@ -7,11 +7,9 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@services/*": ["services/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["vite.config.ts"]

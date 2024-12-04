@@ -1,62 +1,93 @@
-import type { JSX } from 'react';
-import { PaginationData } from '@services/interfaces';
+import { useMemo, type JSX, useEffect } from 'react';
 import { getStartEndNums } from './get-start-end-nums';
 import classes from './pagination.module.scss';
+import { useAppSelector } from '@/store/hooks';
+import useActions from '@/hooks/use-actions';
+import { useSearchParams } from 'react-router-dom';
 
-interface PaginationProps {
-  paginationData: PaginationData | null;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-}
+export function Pagination(): JSX.Element {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+  const { data: paginationData, status } = useAppSelector((state) => state.cards.pagination);
+  const currentPage = useAppSelector((state) => state.cards.currentPage);
+  const { setCurrentPage } = useActions();
+  const onPageChange = (page: number): void => {
+    searchParams.set('page', `${page}`);
+    setSearchParams(searchParams);
+    setCurrentPage(page);
+  };
 
-export function Pagination({
-  paginationData,
-  currentPage,
-  onPageChange,
-}: PaginationProps): JSX.Element {
+  useEffect(() => {
+    if (pageParam && currentPage !== +pageParam) {
+      setCurrentPage(+pageParam);
+    }
+  }, [searchParams, currentPage, pageParam, setCurrentPage]);
+
   const totalPageCount = paginationData?.last_visible_page || 0;
-  const showStartDots = currentPage > 3;
-  const showEndDots = currentPage < totalPageCount - 3;
+  const { startPage, endPage } = useMemo(() => {
+    return getStartEndNums(totalPageCount, currentPage);
+  }, [totalPageCount, currentPage]);
 
-  const { startPage, endPage } = getStartEndNums(totalPageCount, currentPage);
+  let showStartDots, showEndDots, showStartNumber, showEndNumber;
+
+  if (totalPageCount > 5) {
+    showStartDots = currentPage > 3;
+    showEndDots = currentPage < totalPageCount - 2;
+
+    showStartNumber = showStartDots || currentPage > 2;
+    showEndNumber = showEndDots || currentPage >= totalPageCount - 2;
+  }
 
   const pageNums = Array.from({ length: endPage + 1 - startPage }, (_, index) => startPage + index);
+  const showPagination = paginationData?.items?.count !== 0 && status === 'success';
 
   return (
-    <nav className={classes.pagination}>
-      {currentPage > 1 && (
-        <button className={classes.sideButton} onClick={() => onPageChange(currentPage - 1)}>
-          Previous
-        </button>
+    <>
+      {showPagination && (
+        <nav className={classes.pagination}>
+          {currentPage > 1 && (
+            <button className={classes.sideButton} onClick={() => onPageChange(currentPage - 1)}>
+              Previous
+            </button>
+          )}
+          {showStartNumber && (
+            <button
+              className={classes.paginationButton}
+              disabled={currentPage === 1}
+              onClick={() => onPageChange(1)}
+            >
+              1
+            </button>
+          )}
+          {showStartDots && <span>...</span>}
+          {pageNums.map((number) => (
+            <button
+              className={classes.paginationButton}
+              key={number}
+              disabled={number === currentPage}
+              onClick={() => onPageChange(number)}
+            >
+              {number}
+            </button>
+          ))}
+          {showEndDots && <span>...</span>}
+          {showEndNumber && (
+            <button
+              className={classes.paginationButton}
+              disabled={totalPageCount === currentPage}
+              onClick={() => onPageChange(totalPageCount)}
+            >
+              {totalPageCount}
+            </button>
+          )}
+          {paginationData?.has_next_page && (
+            <button className={classes.sideButton} onClick={() => onPageChange(currentPage + 1)}>
+              Next
+            </button>
+          )}
+        </nav>
       )}
-      {showStartDots && (
-        <button className={classes.paginationButton} onClick={() => onPageChange(1)}>
-          1
-        </button>
-      )}
-      {showStartDots && <span>...</span>}
-      {pageNums.map((number) => (
-        <button
-          className={classes.paginationButton}
-          key={number}
-          disabled={number === currentPage}
-          onClick={() => onPageChange(number)}
-        >
-          {number}
-        </button>
-      ))}
-      {showEndDots && <span>...</span>}
-      {showEndDots && (
-        <button className={classes.paginationButton} onClick={() => onPageChange(totalPageCount)}>
-          {totalPageCount}
-        </button>
-      )}
-      {paginationData?.has_next_page && (
-        <button className={classes.sideButton} onClick={() => onPageChange(currentPage + 1)}>
-          Next
-        </button>
-      )}
-    </nav>
+    </>
   );
 }
 

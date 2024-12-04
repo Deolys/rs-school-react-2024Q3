@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import classes from './fallback-ui.module.scss';
-import CatFailImg from '@assets/images/cat-fail.jpg';
+import CatFailImg from '@/assets/images/cat-fail.jpg';
 
 export function FallbackUI(): JSX.Element {
   const handleReloadPage = (): void => {

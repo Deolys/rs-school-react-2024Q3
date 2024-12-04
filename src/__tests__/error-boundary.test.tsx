@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import type { JSX, ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
-import { ErrorBoundary } from '@components/error-boundary';
+import { ErrorBoundary } from '@/components/error-boundary';
 
 const ProblemChild = (): ReactNode => {
   throw new Error('Error thrown from problem child');

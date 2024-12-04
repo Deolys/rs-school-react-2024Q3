@@ -1,4 +1,4 @@
-import { CardsData, ICard, PaginationData } from '@services/interfaces';
+import { CardAndPagesData, CardsPagesData, ICard, PaginationData } from '@/services/interfaces';
 
 export const mockCards: ICard[] = [
   {
@@ -60,7 +60,19 @@ export const mockPagination: PaginationData = {
   },
 };
 
-export const mockCardData: CardsData = {
-  data: [mockCards[0]],
+export const mockCardsPagesData: CardsPagesData = {
+  data: mockCards,
   pagination: mockPagination,
 };
+
+export const mockCardPagesData: CardAndPagesData = {
+  data: mockCards[0],
+  pagination: mockPagination,
+};
+
+export const mockJsonData = [
+  { column1: 'value1', column2: 'value2' },
+  { column1: 'value3', column2: 'value4' },
+];
+
+export const mockColumnNames = ['column1', 'column2'];

@@ -1,0 +1,27 @@
+.alertInfo {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.alert {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+
+.error {
+  color: #560707;
+  background-color: #fed4d4;
+}
+
+.success {
+  color: #214139;
+  background-color: #d5fff0;
+}
+
+.info {
+  color: #213741;
+  background-color: #b2f1ff;
+}
